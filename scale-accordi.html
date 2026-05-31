@@ -109,6 +109,9 @@
             </tbody>
           </table>
 
+          <h4>Accordi sul pentagramma</h4>
+          <div class="staff-gallery" id="staff-chords-s2"></div>
+
           <h4>Galleria accordi</h4>
           <div class="chord-gallery">
             <div class="chord-card" data-chord="G"><div class="chord-card-name">G</div><div class="chord-card-type">Maggiore</div></div>
@@ -223,6 +226,27 @@ Sol "broken":     G3–D4–B3–G4</pre>
           </div>
         </section>
 
+        <section id="s6">
+          <div class="section-header">
+            <span class="section-num">S&amp;A 6</span>
+            <div>
+              <div class="section-title">Circolo delle Quinte</div>
+              <div class="section-subtitle">La mappa armonica di tutte le 12 tonalità — clicca per esplorare</div>
+            </div>
+          </div>
+          <p>Le tonalità vicine nel circolo condividono molti accordi: per questo i giri del forró si muovono sempre tra zone adiacenti. Le tonalità evidenziate sono le più usate nel repertorio nordestino.</p>
+          <div class="cof-wrapper">
+            <div class="cof-svg-container" id="cof-svg-container"></div>
+            <div class="cof-info-panel" id="cof-info-panel">
+              <p class="cof-hint">← Clicca su una tonalità per vedere i dettagli</p>
+            </div>
+          </div>
+          <div class="cof-legend">
+            <span class="cof-legend-forro">● Tonalità comuni nel forró nordestino</span>
+            <span>○ Anello esterno: maggiore &nbsp;|&nbsp; anello interno: relativa minore</span>
+          </div>
+        </section>
+
       </main>
     </div>
   </div>
@@ -231,17 +255,48 @@ Sol "broken":     G3–D4–B3–G4</pre>
   <script src="js/i18n.js"></script>
   <script src="js/instruments.js"></script>
   <script src="js/chords.js"></script>
+  <script src="js/staff.js"></script>
   <script src="js/data/scale-accordi-content.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/audio.js"></script>
   <script>
-    if (window.FisarmonicaProgress) {
-      window.FisarmonicaProgress.buildSidebar();
-      window.FisarmonicaProgress.initScrollSpy();
-    }
-  </script>
-  <script>
     (() => {
+      function setupChordCards() {
+        if (!window.FisarmonicaChords) return;
+        const { createPianoKeyboardSvg, createStradellaDiagram, createHoverCardSystem } = window.FisarmonicaChords;
+        const renderChordDiagram = (container, chord) => {
+          container.replaceChildren();
+          container.appendChild(createPianoKeyboardSvg(chord.name || chord));
+          container.appendChild(createStradellaDiagram(chord.name || chord));
+        };
+        const { show, hide, position } = createHoverCardSystem({ renderDiagram: renderChordDiagram });
+        document.querySelectorAll('.chord-gallery .chord-card').forEach(card => {
+          const chordName = card.getAttribute('data-chord');
+          if (!chordName) return;
+          card.addEventListener('mouseenter', e => show(card, { name: chordName }, { x: e.clientX, y: e.clientY }));
+          card.addEventListener('mousemove', e => position(e.clientX, e.clientY));
+          card.addEventListener('mouseleave', hide);
+        });
+        document.querySelectorAll('.chord-strip .chord-pill').forEach(pill => {
+          const chordName = pill.textContent.trim();
+          if (!chordName) return;
+          pill.addEventListener('mouseenter', e => show(pill, { name: chordName }, { x: e.clientX, y: e.clientY }));
+          pill.addEventListener('mousemove', e => position(e.clientX, e.clientY));
+          pill.addEventListener('mouseleave', hide);
+        });
+      }
+
+      /* Registra langChanged PRIMA di applyBasicPageLocalization:
+         applyBasicPageLocalization dispatcha l'evento in modo sincrono,
+         quindi il listener deve esistere prima che venga chiamato. */
+      document.addEventListener('fisarmonica:langChanged', () => {
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+        setupChordCards();
+      });
+
       const loc = window.FisarmonicaI18n.applyBasicPageLocalization('scale-accordi', {});
       const lang = loc.lang;
       window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
@@ -253,35 +308,276 @@ Sol "broken":     G3–D4–B3–G4</pre>
         window.addEventListener('scroll', syncBackToTop, { passive: true });
         syncBackToTop();
       }
+    })();
+  </script>
+  <script>
+    /* ── Pentagrammi accordi ── */
+    (function () {
+      const CHORD_STAVES = [
+        { label: 'G',  notes: ['G4','B4','D5'] },
+        { label: 'C',  notes: ['C4','E4','G4'] },
+        { label: 'D7', notes: ['D4','F#4','A4','C5'] },
+        { label: 'Em', notes: ['E4','G4','B4'] },
+        { label: 'Am', notes: ['A4','C5','E5'] },
+        { label: 'E7', notes: ['E4','G#4','B4','D5'] },
+        { label: 'Dm', notes: ['D4','F4','A4'] },
+        { label: 'F',  notes: ['F4','A4','C5'] },
+      ];
 
-      function setupChordCards() {
-        const { createPianoKeyboardSvg, createStradellaDiagram, createHoverCardSystem } = window.FisarmonicaChords;
-
-        const renderChordDiagram = (container, chord) => {
-          container.replaceChildren();
-          container.appendChild(createPianoKeyboardSvg(chord.name || chord));
-          container.appendChild(createStradellaDiagram(chord.name || chord));
-        };
-
-        const { show, hide, position } = createHoverCardSystem({ renderDiagram: renderChordDiagram });
-
-        document.querySelectorAll('.chord-gallery .chord-card').forEach(card => {
-          const chordName = card.getAttribute('data-chord');
-          if (!chordName) return;
-          card.addEventListener('mouseenter', e => show(card, { name: chordName }, { x: e.clientX, y: e.clientY }));
-          card.addEventListener('mousemove', e => position(e.clientX, e.clientY));
-          card.addEventListener('mouseleave', hide);
+      function buildStaffChords() {
+        const container = document.getElementById('staff-chords-s2');
+        if (!container || !window.FisarmonicaStaff) return;
+        if (container.dataset.staffInit) return;
+        container.dataset.staffInit = '1';
+        container.innerHTML = '';
+        CHORD_STAVES.forEach(({ label, notes }) => {
+          const div = document.createElement('div');
+          div.className = 'staff-item';
+          div.appendChild(window.FisarmonicaStaff.createStaffSVG({ notes, label, width: 170 }));
+          container.appendChild(div);
         });
       }
 
-      document.addEventListener('DOMContentLoaded', setupChordCards);
-      document.addEventListener('fisarmonica:langChanged', () => {
-        if (window.FisarmonicaProgress) {
-          window.FisarmonicaProgress.buildSidebar();
-          window.FisarmonicaProgress.initScrollSpy();
+      document.addEventListener('fisarmonica:langChanged', buildStaffChords);
+      buildStaffChords();
+    })();
+  </script>
+  <script>
+    /* ── Circolo delle Quinte ── */
+    /* Viene eseguito dopo applyBasicPageLocalization, quindi cof-svg-container
+       esiste già nel DOM (sia in IT che in EN/PT grazie al mainHtml aggiornato). */
+    (function () {
+      const COF = [
+        { maj:'C',  min:'Am',  sig:'',    chords:['C','Dm','Em','F','G7','Am'],    songs:['Lamento Sertanejo'] },
+        { maj:'G',  min:'Em',  sig:'1♯',  chords:['G','Am','Bm','C','D7','Em'],    songs:['Asa Branca','Xote das Meninas','Rindo à Toa'] },
+        { maj:'D',  min:'Bm',  sig:'2♯',  chords:['D','Em','F♯m','G','A7','Bm'],   songs:['Paraíba','No Meu Pé de Serra'] },
+        { maj:'A',  min:'F♯m', sig:'3♯',  chords:['A','Bm','C♯m','D','E7','F♯m'], songs:[] },
+        { maj:'E',  min:'C♯m', sig:'4♯',  chords:['E','F♯m','G♯m','A','B7','C♯m'],songs:[] },
+        { maj:'B',  min:'G♯m', sig:'5♯',  chords:['B','C♯m','D♯m','E','F♯7','G♯m'],songs:[] },
+        { maj:'F♯', min:'D♯m', sig:'6♯',  chords:['F♯','G♯m','A♯m','B','C♯7','D♯m'],songs:[] },
+        { maj:'D♭', min:'B♭m', sig:'5♭',  chords:['D♭','E♭m','Fm','G♭','A♭7','B♭m'],songs:[] },
+        { maj:'A♭', min:'Fm',  sig:'4♭',  chords:['A♭','B♭m','Cm','D♭','E♭7','Fm'],songs:[] },
+        { maj:'E♭', min:'Cm',  sig:'3♭',  chords:['E♭','Fm','Gm','A♭','B♭7','Cm'], songs:[] },
+        { maj:'B♭', min:'Gm',  sig:'2♭',  chords:['B♭','Cm','Dm','E♭','F7','Gm'],  songs:[] },
+        { maj:'F',  min:'Dm',  sig:'1♭',  chords:['F','Gm','Am','B♭','C7','Dm'],   songs:[] },
+      ];
+
+      const FORRO = new Set(['C','G','D','Am','Em','Dm']);
+
+      /* Triade di tonica per ciascuna tonalità (ordine = indice in COF).
+         Le note usano i nomi ASCII di staff.js con posizionamento diatonico corretto. */
+      const COF_STAFF_NOTES = [
+        ['C4','E4','G4'],    /* C  */
+        ['G4','B4','D5'],    /* G  */
+        ['D4','F#4','A4'],   /* D  */
+        ['A4','C#5','E5'],   /* A  */
+        ['E4','G#4','B4'],   /* E  */
+        ['B4','D#5','F#5'],  /* B  */
+        ['F#4','A#4','C#5'], /* F# */
+        ['Db4','F4','Ab4'],  /* Db */
+        ['Ab4','C5','Eb5'],  /* Ab */
+        ['Eb4','G4','Bb4'],  /* Eb */
+        ['Bb4','D5','F5'],   /* Bb */
+        ['F4','A4','C5'],    /* F  */
+      ];
+
+      const NS = 'http://www.w3.org/2000/svg';
+      const CX = 165, CY = 165;
+      const R_OUT = 152, R_MID = 104, R_IN = 60, R_CORE = 42;
+      const GAP = 1.2;
+      const ROMAN = ['I','ii','iii','IV','V7','vi'];
+
+      function rad(deg) { return deg * Math.PI / 180; }
+
+      function arcPath(rOut, rIn, startDeg, endDeg) {
+        const s = rad(startDeg + GAP), e = rad(endDeg - GAP);
+        const x1 = CX + rOut * Math.cos(s), y1 = CY + rOut * Math.sin(s);
+        const x2 = CX + rOut * Math.cos(e), y2 = CY + rOut * Math.sin(e);
+        const x3 = CX + rIn  * Math.cos(e), y3 = CY + rIn  * Math.sin(e);
+        const x4 = CX + rIn  * Math.cos(s), y4 = CY + rIn  * Math.sin(s);
+        return `M${x1},${y1} A${rOut},${rOut} 0 0,1 ${x2},${y2} L${x3},${y3} A${rIn},${rIn} 0 0,0 ${x4},${y4}Z`;
+      }
+
+      function el(tag, attrs) {
+        const e = document.createElementNS(NS, tag);
+        Object.entries(attrs || {}).forEach(([k, v]) => e.setAttribute(k, v));
+        return e;
+      }
+
+      function txt(content, x, y, size, fill, weight) {
+        const t = el('text', {
+          x, y: y + size * 0.36,
+          'text-anchor': 'middle',
+          'font-size': size,
+          'font-family': "'Courier New', monospace",
+          'font-weight': weight || '400',
+          fill,
+        });
+        t.textContent = content;
+        return t;
+      }
+
+      function buildSVG(onSelect) {
+        const svg = el('svg', {
+          viewBox: `0 0 ${CX*2} ${CY*2}`,
+          role: 'img',
+          'aria-label': 'Circolo delle quinte interattivo',
+        });
+
+        const groups = [];
+        let selectedIdx = null; /* condiviso tra tutti i segmenti */
+
+        COF.forEach((key, i) => {
+          const center = i * 30 - 90;
+          const start  = center - 15;
+          const end    = center + 15;
+          const isForro = FORRO.has(key.maj) || FORRO.has(key.min);
+
+          const rMaj = (R_OUT + R_MID) / 2;
+          const rMin = (R_MID + R_IN)  / 2;
+          const majX = CX + rMaj * Math.cos(rad(center));
+          const majY = CY + rMaj * Math.sin(rad(center));
+          const minX = CX + rMin * Math.cos(rad(center));
+          const minY = CY + rMin * Math.sin(rad(center));
+
+          const g = el('g', { style: 'cursor:pointer' });
+          g.dataset.index = i;
+
+          const outerFill = isForro ? 'rgba(201,149,42,0.18)' : 'rgba(26,20,16,0.85)';
+          const innerFill = isForro ? 'rgba(201,149,42,0.09)' : 'rgba(18,14,11,0.85)';
+          const stroke    = 'rgba(58,46,34,0.9)';
+
+          const outerArc = el('path', {
+            d: arcPath(R_OUT, R_MID, start, end),
+            fill: outerFill, stroke, 'stroke-width': '1',
+          });
+          const innerArc = el('path', {
+            d: arcPath(R_MID, R_IN, start, end),
+            fill: innerFill, stroke, 'stroke-width': '1',
+          });
+
+          const majLabel = txt(key.maj, majX, majY, 13,
+            isForro ? 'rgba(232,184,75,1)' : 'rgba(240,230,208,0.85)',
+            isForro ? '700' : '400');
+          const minLabel = txt(key.min, minX, minY, 8.5,
+            isForro ? 'rgba(201,149,42,0.9)' : 'rgba(157,139,117,0.75)');
+
+          g.appendChild(outerArc);
+          g.appendChild(innerArc);
+          g.appendChild(majLabel);
+          g.appendChild(minLabel);
+
+          const setHighlight = (on, selected) => {
+            outerArc.setAttribute('fill',
+              selected ? 'rgba(201,149,42,0.45)'
+              : on      ? 'rgba(201,149,42,0.28)'
+              : outerFill);
+            outerArc.setAttribute('stroke',
+              selected ? 'rgba(232,184,75,0.95)' : stroke);
+            outerArc.setAttribute('stroke-width', selected ? '2' : '1');
+            innerArc.setAttribute('fill',
+              selected ? 'rgba(201,149,42,0.22)'
+              : on      ? 'rgba(201,149,42,0.13)'
+              : innerFill);
+            innerArc.setAttribute('stroke',
+              selected ? 'rgba(232,184,75,0.95)' : stroke);
+            innerArc.setAttribute('stroke-width', selected ? '2' : '1');
+          };
+
+          groups.push({ g, setHighlight });
+
+          g.addEventListener('mouseenter', () => {
+            if (i !== selectedIdx) setHighlight(true, false);
+          });
+          g.addEventListener('mouseleave', () => {
+            if (i !== selectedIdx) setHighlight(false, false);
+          });
+          g.addEventListener('click', () => {
+            selectedIdx = (selectedIdx === i) ? null : i;
+            groups.forEach((gr, j) => gr.setHighlight(false, j === selectedIdx));
+            onSelect(selectedIdx);
+          });
+
+          svg.appendChild(g);
+        });
+
+        /* Centro */
+        svg.appendChild(el('circle', {
+          cx: CX, cy: CY, r: R_CORE,
+          fill: 'rgba(15,11,8,1)',
+          stroke: 'rgba(201,149,42,0.25)', 'stroke-width': '1',
+        }));
+        svg.appendChild(txt('5ᵉ', CX, CY - 6, 9, 'rgba(157,139,117,0.5)'));
+        svg.appendChild(txt('quinte', CX, CY + 7, 7.5, 'rgba(157,139,117,0.4)'));
+
+        return svg;
+      }
+
+      function renderInfo(idx) {
+        const panel = document.getElementById('cof-info-panel');
+        if (!panel) return;
+
+        if (idx === null) {
+          panel.innerHTML = '<p class="cof-hint">← Clicca su una tonalità per vedere i dettagli</p>';
+          return;
         }
-        requestAnimationFrame(setupChordCards);
-      });
+
+        const key = COF[idx];
+        const isForro = FORRO.has(key.maj) || FORRO.has(key.min);
+
+        const diatonicHtml = key.chords.map((ch, j) => `
+          <div class="cof-chord-cell">
+            <span class="cof-roman">${ROMAN[j]}</span>
+            <span class="cof-chord-name">${ch}</span>
+          </div>`).join('');
+
+        const sigHtml = key.sig
+          ? `<span class="cof-key-sig">${key.sig}</span>`
+          : `<span class="cof-key-sig">no ♯♭</span>`;
+
+        const forroHtml = isForro
+          ? '<span class="cof-forro-badge">forró</span>'
+          : '';
+
+        const songsHtml = key.songs.length
+          ? `<div class="cof-songs">
+               <span class="cof-songs-label">Nel repertório: </span>
+               ${key.songs.map(s => `<span class="cof-song">${s}</span>`).join(', ')}
+             </div>`
+          : '';
+
+        panel.innerHTML = `
+          <div class="cof-key-header">
+            <span class="cof-key-name">${key.maj}</span>
+            ${sigHtml}
+            <span class="cof-rel">← relativa: <strong>${key.min}</strong></span>
+            ${forroHtml}
+          </div>
+          <div class="cof-diatonic">${diatonicHtml}</div>
+          ${songsHtml}
+          <div id="cof-staff-render" class="cof-staff-wrap"></div>`;
+
+        if (window.FisarmonicaStaff && COF_STAFF_NOTES[idx]) {
+          const staffEl = document.getElementById('cof-staff-render');
+          if (staffEl) {
+            staffEl.appendChild(
+              window.FisarmonicaStaff.createStaffSVG({
+                notes: COF_STAFF_NOTES[idx],
+                label: key.maj + ' maggiore',
+                width: 170,
+              })
+            );
+          }
+        }
+      }
+
+      /* cof-svg-container è nel DOM statico sopra questi script,
+         quindi è già disponibile — chiamata diretta senza DOMContentLoaded. */
+      const container = document.getElementById('cof-svg-container');
+      if (container) {
+        container.appendChild(buildSVG(renderInfo));
+        renderInfo(null);
+      }
     })();
   </script>
 </body>

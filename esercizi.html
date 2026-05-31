@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Esercizi Mano Sinistra</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" defer></script>
+  <style>
+    :root {
+      --genre-accent-rgb: 180, 90, 40;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+    .ex-staff-wrap {
+      background: #1c1710;
+      border: 1px solid rgba(180,90,40,.2);
+      border-radius: var(--radius);
+      padding: .75rem .5rem .25rem;
+      margin: .75rem 0;
+      overflow-x: auto;
+    }
+    .ex-staff-wrap svg {
+      min-width: 520px;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="esercizi"
+    data-title="Esercizi Mano Sinistra"
+    data-subtitle="Dal metodo classico: bassi soli, staccato e coordinazione — esercizi 18–24">
+  </header>
+
+  <div class="bpm-bar">
+    <button class="metro-play-btn" id="metronome-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.toggleMetronome()">&#9654;</button>
+    <label class="bpm-label" for="bpm-slider">Tempo</label>
+    <input type="range" id="bpm-slider" min="40" max="120" value="60"
+      oninput="window.FisarmonicaAudio && window.FisarmonicaAudio.updateBpm(this.value)">
+    <span class="bpm-value" id="bpm-value">60 BPM</span>
+    <div class="rhythm-presets">
+      <button class="rhythm-btn active" data-rhythm="xote"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('xote')">Xote</button>
+      <button class="rhythm-btn" data-rhythm="baiao"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('baiao')">Baião</button>
+    </div>
+    <button class="stop-all-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.stopActive()">&#9632; Stop</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="page-layout">
+      <aside class="progress-sidebar" id="progress-sidebar"></aside>
+      <main class="content-column">
+
+        <!-- ── Introduzione ── -->
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">Intro</span>
+            <div>
+              <div class="section-title">Bassi Soli — Mano Sinistra</div>
+              <div class="section-subtitle">Esercizi 18–24 dal metodo classico per fisarmonica</div>
+            </div>
+          </div>
+          <p>Questi esercizi allenano la mano sinistra a usare i <strong>bassi singoli</strong> del sistema Stradella con controllo completo di mantice e diteggiatura. Ogni nota è scritta in <strong>chiave di basso</strong>.</p>
+          <div class="method-points" style="margin-top:.75rem;">
+            <div class="method-point">
+              <div class="method-point-title">Mantice</div>
+              <p style="font-size:.88rem;">Cambia direzione ogni misura (es. 18–19) o ogni due misure (es. 24). Il cambio deve essere silenzioso, sul tempo debole.</p>
+            </div>
+            <div class="method-point">
+              <div class="method-point-title">Posizione</div>
+              <p style="font-size:.88rem;">La mano rimanga sempre in posizione — non allontanare le dita dai bottoni durante pause e staccato.</p>
+            </div>
+            <div class="method-point">
+              <div class="method-point-title">Tempo</div>
+              <p style="font-size:.88rem;">Inizia lentissimo (40–50 BPM). Aumenta solo quando il suono è uniforme dall'inizio alla fine di ogni nota.</p>
+            </div>
+          </div>
+          <h4>Diteggiatura</h4>
+          <div class="finger-row">
+            <div class="finger-badge f2">2</div><span class="finger-label">Indice</span>
+            <div class="finger-badge f3">3</div><span class="finger-label">Medio</span>
+            <div class="finger-badge f4">4</div><span class="finger-label">Anulare</span>
+            <div class="finger-badge f5">5</div><span class="finger-label">Mignolo</span>
+          </div>
+        </section>
+
+        <!-- ── Esercizi 18–19 ── -->
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">Es. 18–19</span>
+            <div>
+              <div class="section-title">Semibrevi — 4/4</div>
+              <div class="section-subtitle">Una nota intera per misura, alternata a una pausa intera</div>
+            </div>
+          </div>
+          <p>Ogni nota dura <strong>4 tempi</strong> (l'intera misura). Tenere il mantice in apertura o chiusura costante per tutta la durata, poi cambiare direzione sulla pausa senza allontanare la mano.</p>
+          <p>I numeri sotto le note indicano il dito della mano sinistra da usare.</p>
+
+          <h4>Esercizio 18</h4>
+          <div class="ex-staff-wrap" id="staff-18"></div>
+          <div class="exercise-block">
+            <strong>Mantice:</strong> → mis. 1 &nbsp;|&nbsp; ← mis. 2 &nbsp;|&nbsp; → mis. 3 &nbsp;|&nbsp; ← mis. 4 &nbsp;(continua alternando)
+          </div>
+
+          <h4 style="margin-top:1.2rem;">Esercizio 19</h4>
+          <div class="ex-staff-wrap" id="staff-19"></div>
+          <div class="exercise-block">
+            Stessa struttura dell'es. 18 con diteggiatura diversa: <strong>3 → 2 → 4 → 4 → 3 → 5 → 4 → 3</strong>
+          </div>
+        </section>
+
+        <!-- ── Esercizi 20–23 ── -->
+        <section id="s3">
+          <div class="section-header">
+            <span class="section-num">Es. 20–23</span>
+            <div>
+              <div class="section-title">Mezze note puntate — 3/4</div>
+              <div class="section-subtitle">Una nota puntata per misura (3 tempi)</div>
+            </div>
+          </div>
+          <p>In 3/4 la mezza nota puntata (𝅗𝅥.) dura <strong>3 tempi</strong>, occupando l'intera misura. Mantice: cambia ogni misura.</p>
+
+          <h4>Esercizio 20</h4>
+          <div class="ex-staff-wrap" id="staff-20"></div>
+
+          <h4 style="margin-top:1rem;">Esercizio 21</h4>
+          <div class="ex-staff-wrap" id="staff-21"></div>
+
+          <h4 style="margin-top:1rem;">Esercizio 22</h4>
+          <div class="ex-staff-wrap" id="staff-22"></div>
+
+          <h4 style="margin-top:1rem;">Esercizio 23</h4>
+          <div class="ex-staff-wrap" id="staff-23"></div>
+          <div class="exercise-block">
+            <strong>Progressione 20→23:</strong> studia ogni esercizio 5 minuti prima di passare al successivo. Solo quando il mantice è silenzioso e il suono uniforme procedi.
+          </div>
+        </section>
+
+        <!-- ── Esercizio 24 ── -->
+        <section id="s4">
+          <div class="section-header">
+            <span class="section-num">Es. 24</span>
+            <div>
+              <div class="section-title">Bassi Soli Staccati — 4/4</div>
+              <div class="section-subtitle">Note brevissime, mantice ogni 2 misure</div>
+            </div>
+          </div>
+          <p>Lo <strong>staccato</strong>: premi il bottone per un istante, rilascia subito, <em>senza allontanare il dito</em>. Il suono deve essere secco e definito. Cambia direzione del mantice ogni <strong>due misure</strong>.</p>
+
+          <div class="ex-staff-wrap" id="staff-24"></div>
+          <div class="exercise-block">
+            <strong>Mantice:</strong> → mis. 1–2 &nbsp;|&nbsp; ← mis. 3–4 &nbsp;|&nbsp; → mis. 5–6 &nbsp;(ogni 2 misure)
+          </div>
+          <div class="exercise-block" style="margin-top:.5rem;">
+            <strong>Tecnica (cap. IV lett. A):</strong> Il dito resta sfiorando il bottone — il rilascio è brevissimo ma il contatto non si interrompe. Questo permette velocità massima senza perdere la posizione.
+          </div>
+        </section>
+
+        <!-- ── Piano di studio ── -->
+        <section id="s5">
+          <div class="section-header">
+            <span class="section-num">Piano</span>
+            <div><div class="section-title">Piano di Studio</div></div>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Giorni 1–2</div>
+            <p>Es. 18: dito 2 e 4 soltanto, 40 BPM. Concentrati su mantice silenzioso.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Giorni 3–4</div>
+            <p>Es. 18 tutti i diti + Es. 19, 50 BPM.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Giorni 5–7</div>
+            <p>Es. 20–23 in 3/4, 50 BPM. Ascolta il tempo ternario prima di iniziare.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Settimana 2</div>
+            <p>Es. 24 staccato, 60 BPM. Prima con dito 3 soltanto.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Settimana 3+</div>
+            <p>Combina mano sinistra di questi esercizi con i pattern boom-chick della mano destra (vedi Xote & Levada).</p>
+          </div>
+          <ul class="checklist">
+            <li>Es. 18: cambio mantice silenzioso a 60 BPM</li>
+            <li>Es. 19: tutti i diti senza guardare i bottoni</li>
+            <li>Es. 20–23: tempo ternario stabile</li>
+            <li>Es. 24: staccato netto, mano sempre in posizione</li>
+          </ul>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/staff.js"></script>
+  <script src="js/exercise-staff.js"></script>
+  <script src="js/data/esercizi-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/audio.js"></script>
+  <script>
+    document.addEventListener('fisarmonica:langChanged', () => {
+      if (window.FisarmonicaProgress) {
+        window.FisarmonicaProgress.buildSidebar();
+        window.FisarmonicaProgress.initScrollSpy();
+      }
+    });
+    window.FisarmonicaI18n.applyBasicPageLocalization('esercizi', {});
+    window.FisarmonicaI18n.setupMobilePreferenceSheet();
+    const backToTop = document.getElementById('back-to-top');
+    if (backToTop) {
+      const sync = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+      window.addEventListener('scroll', sync, { passive:true });
+      sync();
+    }
+  </script>
+  <script>
+  /* ── Dati degli esercizi e rendering ── */
+  (function () {
+    const EX = window.FisarmonicaExercise;
+    if (!EX) return;
+
+    /* Shorthand helpers */
+    const N = (pitch, dur, fingering, staccato) =>
+      ({ type:'note', duration:dur, pitch, fingering, staccato });
+    const R = (dur) =>
+      ({ type:'rest', duration:dur });
+
+    /* ── Esercizio 18 — 4/4, semibrevi, diteggiatura 2→4→3→5 ── */
+    const ex18 = EX.createExerciseSVG({
+      clef:'bass', timeSig:'4/4',
+      measPerRow: 4,
+      measures: [
+        [ N('G2','whole',2) ],  /* mis.1  nota  dito 2 */
+        [ R('whole') ],         /* mis.2  pausa        */
+        [ N('C3','whole',4) ],  /* mis.3  nota  dito 4 */
+        [ R('whole') ],
+        [ N('A2','whole',3) ],  /* mis.5  nota  dito 3 */
+        [ R('whole') ],
+        [ N('D3','whole',5) ],  /* mis.7  nota  dito 5 */
+        [ R('whole') ],
+      ],
+    });
+    document.getElementById('staff-18').appendChild(ex18);
+
+    /* ── Esercizio 19 — 4/4, semibrevi, diteggiatura 3→2→4→4→3→5 ── */
+    const ex19 = EX.createExerciseSVG({
+      clef:'bass', timeSig:'4/4',
+      measPerRow: 4,
+      measures: [
+        [ N('B2','whole',3) ],
+        [ R('whole') ],
+        [ N('G2','whole',2) ],
+        [ R('whole') ],
+        [ N('E3','whole',4) ],
+        [ R('whole') ],
+        [ N('G3','whole',4) ],
+        [ R('whole') ],
+        [ N('D3','whole',3) ],
+        [ R('whole') ],
+        [ N('F3','whole',5) ],
+        [ R('whole') ],
+      ],
+    });
+    document.getElementById('staff-19').appendChild(ex19);
+
+    /* ── Esercizio 20 — 3/4, mezza puntata, diteggiatura 4→5→3→5→2→5→4→5 ── */
+    const ex20 = EX.createExerciseSVG({
+      clef:'bass', timeSig:'3/4',
+      measPerRow: 4,
+      measures: [
+        [ N('A2','dotted-half',4) ],
+        [ N('D3','dotted-half',5) ],
+        [ N('B2','dotted-half',3) ],
+        [ N('D3','dotted-half',5) ],
+        [ N('G2','dotted-half',2) ],
+        [ N('D3','dotted-half',5) ],
+        [ N('G3','dotted-half',4) ],
+        [ N('D3','dotted-half',5) ],
+      ],
+    });
+    document.getElementById('staff-20').appendChild(ex20);
+
+    /* ── Esercizio 21 — 3/4, alternanza 4→2 ── */
+    const ex21 = EX.createExerciseSVG({
+      clef:'bass', timeSig:'3/4',
+      measPerRow: 4,
+      measures: [
+        [ N('A2','dotted-half',4) ],
+        [ N('G2','dotted-half',2) ],
+        [ N('A2','dotted-half',4) ],
+        [ N('G2','dotted-half',2) ],
+        [ N('A2','dotted-half',4) ],
+        [ N('G3','dotted-half',2) ],
+        [ N('A2','dotted-half',4) ],
+        [ N('G2','dotted-half',2) ],
+      ],
+    });
+    document.getElementById('staff-21').appendChild(ex21);
+
+    /* ── Esercizio 22 — 3/4, scala ascendente/discendente ── */
+    const ex22 = EX.createExerciseSVG({
+      clef:'bass', timeSig:'3/4',
+      measPerRow: 4,
+      measures: [
+        [ N('G2','dotted-half',4) ],
+        [ N('A2','dotted-half',3) ],
+        [ N('B2','dotted-half',2) ],
+        [ N('C3','dotted-half',3) ],
+        [ N('D3','dotted-half',4) ],
+        [ N('C3','dotted-half',3) ],
+        [ N('B2','dotted-half',2) ],
+        [ N('G2','dotted-half',4) ],
+      ],
+    });
+    document.getElementById('staff-22').appendChild(ex22);
+
+    /* ── Esercizio 23 — 3/4, diti misti ── */
+    const ex23 = EX.createExerciseSVG({
+      clef:'bass', timeSig:'3/4',
+      measPerRow: 4,
+      measures: [
+        [ N('C3','dotted-half',4) ],
+        [ N('A2','dotted-half',2) ],
+        [ N('D3','dotted-half',3) ],
+        [ N('B2','dotted-half',4) ],
+        [ N('G2','dotted-half',2) ],
+        [ N('E3','dotted-half',3) ],
+        [ N('F3','dotted-half',4) ],
+        [ N('G2','dotted-half',2) ],
+      ],
+    });
+    document.getElementById('staff-23').appendChild(ex23);
+
+    /* ── Esercizio 24 — 4/4, nere staccate, mantice ogni 2 misure ── */
+    const pat24 = (notes, fingers) =>
+      notes.map((p, i) => N(p, 'quarter', fingers[i], true));
+
+    const ex24 = EX.createExerciseSVG({
+      clef:'bass', timeSig:'4/4',
+      measPerRow: 4,
+      measures: [
+        pat24(['G2','D3','G2','D3'], [4,3,4,3]),
+        pat24(['G2','D3','G2','D3'], [4,3,4,3]),
+        pat24(['C3','G3','C3','G3'], [4,3,4,3]),
+        pat24(['C3','G3','C3','G3'], [4,3,4,3]),
+        pat24(['A2','E3','A2','E3'], [4,3,4,3]),
+        pat24(['A2','E3','A2','E3'], [4,3,4,3]),
+        pat24(['G2','D3','G2','C3'], [4,3,4,2]),
+        pat24(['G2','D3','G2','G2'], [4,3,4,4]),
+      ],
+    });
+    document.getElementById('staff-24').appendChild(ex24);
+
+  })();
+  </script>
+</body>
+</html>

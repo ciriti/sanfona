@@ -68,6 +68,11 @@ G broken:     G3-D4-B3-G4</pre>
 <tr><td>i–iv–V7</td><td>Gm–Cm–D7</td><td>Am–Dm–E7</td><td>Em–Am–B7</td></tr>
 </tbody></table>
 <div class="exercise-block"><strong>Exercise:</strong> Play G–C–D7 in G, then transpose to D (D–G–A7), then to A (A–D–E7). Same patterns, new positions.</div>
+</section>
+<section id="s6"><div class="section-header"><span class="section-num">S&C 6</span><div><div class="section-title">Circle of Fifths</div><div class="section-subtitle">The harmonic map of all 12 keys — click to explore</div></div></div>
+<p>Keys close together on the circle share many chords — that's why forró progressions always move between adjacent zones. Highlighted keys are most common in the northeastern repertoire.</p>
+<div class="cof-wrapper"><div class="cof-svg-container" id="cof-svg-container"></div><div class="cof-info-panel" id="cof-info-panel"><p class="cof-hint">← Click on a key to see details</p></div></div>
+<div class="cof-legend"><span class="cof-legend-forro">● Keys common in northeastern forró</span><span>○ Outer ring: major &nbsp;|&nbsp; inner ring: relative minor</span></div>
 </section>`,
   },
   pt: {
@@ -104,6 +109,11 @@ Sol descendente: G4-D4-B3-G3</pre>
 <table><thead><tr><th>Giro</th><th>em Sol</th><th>em Ré</th><th>em Lá</th></tr></thead><tbody>
 <tr><td>I–IV–V7</td><td>G–C–D7</td><td>D–G–A7</td><td>A–D–E7</td></tr>
 </tbody></table>
+</section>
+<section id="s6"><div class="section-header"><span class="section-num">E&A 6</span><div><div class="section-title">Círculo das Quintas</div><div class="section-subtitle">O mapa harmônico das 12 tonalidades — clique para explorar</div></div></div>
+<p>As tonalidades próximas no círculo compartilham muitos acordes — por isso as progressões do forró sempre se movem entre zonas adjacentes.</p>
+<div class="cof-wrapper"><div class="cof-svg-container" id="cof-svg-container"></div><div class="cof-info-panel" id="cof-info-panel"><p class="cof-hint">← Clique em uma tonalidade para ver os detalhes</p></div></div>
+<div class="cof-legend"><span class="cof-legend-forro">● Tonalidades comuns no forró nordestino</span><span>○ Anel externo: maior &nbsp;|&nbsp; anel interno: relativa menor</span></div>
 </section>`,
   },
 };

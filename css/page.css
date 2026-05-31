@@ -682,6 +682,378 @@
 /* ── Piano keyboard in chord card ── */
 .piano-keyboard-svg { display: block; }
 
+/* ── Circolo delle Quinte ── */
+.cof-wrapper {
+  display: flex;
+  gap: 1.5rem;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin: 1.25rem 0;
+}
+
+.cof-svg-container {
+  flex-shrink: 0;
+  width: 100%;
+  max-width: 300px;
+}
+
+.cof-svg-container svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.cof-info-panel {
+  flex: 1;
+  min-width: 200px;
+  background: var(--card, #221c16);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  min-height: 120px;
+}
+
+.cof-hint {
+  color: var(--text-body);
+  font-size: .85rem;
+  font-style: italic;
+  margin: 0;
+}
+
+.cof-key-header {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .5rem;
+  margin-bottom: .85rem;
+}
+
+.cof-key-name {
+  font-family: 'Courier New', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: rgba(var(--genre-accent-rgb), 1);
+}
+
+.cof-key-sig {
+  font-family: 'Courier New', monospace;
+  font-size: .8rem;
+  color: var(--text-body);
+  background: rgba(255,255,255,.05);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.cof-rel {
+  font-size: .8rem;
+  color: var(--text-body);
+}
+
+.cof-rel strong {
+  color: var(--cream);
+  font-family: 'Courier New', monospace;
+}
+
+.cof-forro-badge {
+  font-size: .68rem;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: rgba(var(--genre-accent-rgb), 1);
+  border: 1px solid rgba(var(--genre-accent-rgb), .4);
+  border-radius: 999px;
+  padding: 1px 7px;
+  margin-left: auto;
+}
+
+.cof-diatonic {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-bottom: .75rem;
+}
+
+.cof-chord-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  background: rgba(var(--genre-accent-rgb), .06);
+  border: 1px solid rgba(var(--genre-accent-rgb), .15);
+  border-radius: 6px;
+  padding: .3rem .5rem;
+  min-width: 36px;
+}
+
+.cof-roman {
+  font-size: .65rem;
+  color: var(--text-body);
+  font-family: 'Courier New', monospace;
+  letter-spacing: .05em;
+}
+
+.cof-chord-name {
+  font-size: .82rem;
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: rgba(var(--genre-accent-rgb), 1);
+  white-space: nowrap;
+}
+
+.cof-songs {
+  font-size: .8rem;
+  color: var(--text-body);
+  line-height: 1.5;
+}
+
+.cof-songs-label {
+  font-weight: 600;
+  color: var(--cream);
+}
+
+.cof-song {
+  font-style: italic;
+}
+
+.cof-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .75rem;
+  margin-top: .5rem;
+  font-size: .75rem;
+  color: var(--text-body);
+}
+
+.cof-legend-forro {
+  color: rgba(var(--genre-accent-rgb), .9);
+}
+
+.cof-staff-wrap {
+  margin-top: .75rem;
+  border-top: 1px solid rgba(var(--genre-accent-rgb),.12);
+  padding-top: .6rem;
+}
+
+@media (max-width: 640px) {
+  .cof-svg-container { max-width: 100%; }
+  .cof-info-panel { min-width: 0; width: 100%; }
+}
+
+/* ── Esercizi ── */
+.ex-card {
+  background: var(--card, #221c16);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin: 1rem 0;
+}
+
+.ex-card-header {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.ex-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: rgba(var(--genre-accent-rgb), 1);
+  min-width: 2.5rem;
+}
+
+.ex-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  color: var(--cream);
+  flex: 1;
+}
+
+.ex-badge {
+  font-size: .72rem;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  border: 1px solid rgba(var(--genre-accent-rgb), .4);
+  color: rgba(var(--genre-accent-rgb), 1);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+/* Griglia ritmica esercizi */
+.ex-grid {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: .75rem 0;
+  align-items: flex-end;
+}
+
+.ex-measure {
+  display: flex;
+  gap: 3px;
+  border: 1px solid rgba(var(--genre-accent-rgb), .2);
+  border-radius: 6px;
+  padding: 4px;
+  background: rgba(var(--genre-accent-rgb), .03);
+}
+
+.ex-beat {
+  width: 38px;
+  height: 48px;
+  border-radius: 5px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  font-size: .7rem;
+  font-family: 'Courier New', monospace;
+  color: var(--text-body);
+  background: rgba(26,20,16,0.6);
+  transition: background .1s;
+}
+
+.ex-beat.nota {
+  background: rgba(var(--genre-accent-rgb), .18);
+  border-color: rgba(var(--genre-accent-rgb), .5);
+  color: rgba(var(--genre-accent-rgb), 1);
+}
+
+.ex-beat.nota-lunga {
+  width: 78px; /* occupa 2 beat */
+  background: rgba(var(--genre-accent-rgb), .18);
+  border-color: rgba(var(--genre-accent-rgb), .5);
+  color: rgba(var(--genre-accent-rgb), 1);
+}
+
+.ex-beat.nota-intera {
+  width: 162px; /* occupa 4 beat */
+  background: rgba(var(--genre-accent-rgb), .18);
+  border-color: rgba(var(--genre-accent-rgb), .5);
+  color: rgba(var(--genre-accent-rgb), 1);
+}
+
+.ex-beat.nota-3-4 {
+  width: 120px; /* occupa 3 beat in 3/4 */
+  background: rgba(var(--genre-accent-rgb), .18);
+  border-color: rgba(var(--genre-accent-rgb), .5);
+  color: rgba(var(--genre-accent-rgb), 1);
+}
+
+.ex-beat.pausa {
+  opacity: .3;
+  font-size: .6rem;
+}
+
+.ex-beat.staccato {
+  background: rgba(82,183,136,.18);
+  border-color: rgba(82,183,136,.5);
+  color: var(--green-lt);
+}
+
+.ex-finger {
+  font-size: .85rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.ex-symbol {
+  font-size: .65rem;
+  opacity: .7;
+}
+
+.ex-bellows {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin: .5rem 0;
+  font-size: .8rem;
+  color: var(--text-body);
+}
+
+.ex-bellows-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+}
+
+.ex-bellows-arrow {
+  font-size: 1rem;
+  color: rgba(var(--genre-accent-rgb), .9);
+}
+
+.ex-note-legend {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  font-size: .75rem;
+  color: var(--text-body);
+  margin-top: .5rem;
+}
+
+.ex-legend-nota { color: rgba(var(--genre-accent-rgb), .9); }
+.ex-legend-staccato { color: var(--green-lt); }
+
+.finger-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  margin: .5rem 0;
+  flex-wrap: wrap;
+}
+
+.finger-badge {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: .85rem;
+  font-family: 'Courier New', monospace;
+  border: 2px solid rgba(var(--genre-accent-rgb), .5);
+  color: rgba(var(--genre-accent-rgb), 1);
+  background: rgba(var(--genre-accent-rgb), .1);
+}
+
+.finger-badge.f1 { border-color: rgba(100,140,220,.6); color: rgba(100,140,220,1); background: rgba(100,140,220,.1); }
+.finger-badge.f2 { border-color: rgba(201,149,42,.6);  color: rgba(201,149,42,1);  background: rgba(201,149,42,.1); }
+.finger-badge.f3 { border-color: rgba(82,183,136,.6);  color: var(--green-lt);     background: rgba(82,183,136,.1); }
+.finger-badge.f4 { border-color: rgba(180,90,160,.6);  color: rgba(200,120,190,1); background: rgba(180,90,160,.1); }
+.finger-badge.f5 { border-color: rgba(200,80,60,.6);   color: rgba(220,110,90,1);  background: rgba(200,80,60,.1); }
+
+.finger-label {
+  font-size: .78rem;
+  color: var(--text-body);
+}
+
+@media (max-width: 640px) {
+  .ex-beat.nota-intera { width: 120px; }
+  .ex-beat.nota-lunga  { width: 56px; }
+}
+
+/* ── Staff gallery ── */
+.staff-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: .85rem;
+  margin: 1rem 0;
+}
+.staff-item {
+  background: var(--card, #221c16);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: .6rem .75rem .4rem;
+}
+
 @media (max-width: 640px) {
   .wrapper { padding: 1.25rem 1rem 3rem; }
   .content-column > section { padding: 1.25rem; }

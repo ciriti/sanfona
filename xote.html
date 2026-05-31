@@ -347,13 +347,40 @@ L'accento spostato = "molho" del baião</pre>
   <script src="js/progress.js"></script>
   <script src="js/audio.js"></script>
   <script>
-    if (window.FisarmonicaProgress) {
-      window.FisarmonicaProgress.buildSidebar();
-      window.FisarmonicaProgress.initScrollSpy();
-    }
-  </script>
-  <script>
     (() => {
+      function setupChordCards() {
+        if (!window.FisarmonicaChords) return;
+        const { createPianoKeyboardSvg, createStradellaDiagram, createHoverCardSystem } = window.FisarmonicaChords;
+        const renderChordDiagram = (container, chord) => {
+          container.replaceChildren();
+          container.appendChild(createPianoKeyboardSvg(chord.name || chord));
+          container.appendChild(createStradellaDiagram(chord.name || chord));
+        };
+        const { show, hide, position } = createHoverCardSystem({ renderDiagram: renderChordDiagram });
+        document.querySelectorAll('.chord-gallery .chord-card').forEach(card => {
+          const chordName = card.getAttribute('data-chord');
+          if (!chordName) return;
+          card.addEventListener('mouseenter', e => show(card, { name: chordName }, { x: e.clientX, y: e.clientY }));
+          card.addEventListener('mousemove', e => position(e.clientX, e.clientY));
+          card.addEventListener('mouseleave', hide);
+        });
+        document.querySelectorAll('.chord-strip .chord-pill').forEach(pill => {
+          const chordName = pill.textContent.trim();
+          if (!chordName) return;
+          pill.addEventListener('mouseenter', e => show(pill, { name: chordName }, { x: e.clientX, y: e.clientY }));
+          pill.addEventListener('mousemove', e => position(e.clientX, e.clientY));
+          pill.addEventListener('mouseleave', hide);
+        });
+      }
+
+      document.addEventListener('fisarmonica:langChanged', () => {
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+        setupChordCards();
+      });
+
       const loc = window.FisarmonicaI18n.applyBasicPageLocalization('xote', {});
       const lang = loc.lang;
       window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
@@ -365,36 +392,6 @@ L'accento spostato = "molho" del baião</pre>
         window.addEventListener('scroll', syncBackToTop, { passive: true });
         syncBackToTop();
       }
-
-      function setupChordCards() {
-        const { createPianoKeyboardSvg, createStradellaDiagram, createHoverCardSystem } = window.FisarmonicaChords;
-
-        const renderChordDiagram = (container, chord) => {
-          container.replaceChildren();
-          container.appendChild(createPianoKeyboardSvg(chord.name || chord));
-          container.appendChild(createStradellaDiagram(chord.name || chord));
-        };
-
-        const { show: showHoverCard, hide: hideHoverCard, position: positionHoverCard } =
-          createHoverCardSystem({ renderDiagram: renderChordDiagram });
-
-        document.querySelectorAll('.chord-gallery .chord-card').forEach(card => {
-          const chordName = card.getAttribute('data-chord');
-          if (!chordName) return;
-          card.addEventListener('mouseenter', e => showHoverCard(card, { name: chordName }, { x: e.clientX, y: e.clientY }));
-          card.addEventListener('mousemove', e => positionHoverCard(e.clientX, e.clientY));
-          card.addEventListener('mouseleave', hideHoverCard);
-        });
-      }
-
-      document.addEventListener('DOMContentLoaded', setupChordCards);
-      document.addEventListener('fisarmonica:langChanged', () => {
-        if (window.FisarmonicaProgress) {
-          window.FisarmonicaProgress.buildSidebar();
-          window.FisarmonicaProgress.initScrollSpy();
-        }
-        requestAnimationFrame(setupChordCards);
-      });
     })();
   </script>
 </body>

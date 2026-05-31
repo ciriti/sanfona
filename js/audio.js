@@ -69,6 +69,7 @@
   let currentRhythm = 'xote';
   let metronomeLoop = null;
   let isMetronomePlaying = false;
+  let isMetronomeStarting = false; /* guard contro doppio-click durante l'avvio async */
   let synth = null;
   let metSynth = null;
   let toneReady = false;
@@ -186,10 +187,12 @@
   }
 
   async function toggleMetronome() {
+    if (isMetronomeStarting) return;
     if (isMetronomePlaying) {
       stopMetronome();
     } else {
-      await startMetronome();
+      isMetronomeStarting = true;
+      try { await startMetronome(); } finally { isMetronomeStarting = false; }
     }
   }
 
@@ -203,8 +206,13 @@
   }
 
   /* ── Wire up chord strip play buttons ── */
+  /* Il selettore :not([data-audio-init]) garantisce che ogni elemento riceva
+     esattamente un listener, anche se initChordStrips viene chiamata più volte
+     (DOMContentLoaded + langChanged possono sovrapporsi). */
   function initChordStrips() {
-    document.querySelectorAll('.chord-strip[data-chords]').forEach(strip => {
+    document.querySelectorAll('.chord-strip[data-chords]:not([data-audio-init])').forEach(strip => {
+      strip.dataset.audioInit = '1';
+
       let playBtn = strip.querySelector('.play-chord-btn');
       if (!playBtn) {
         playBtn = document.createElement('button');
@@ -214,6 +222,7 @@
       }
 
       const chords = strip.getAttribute('data-chords').split(/[\s,]+/).filter(Boolean);
+      const durationMs = chords.length * (60 / currentBpm * 2000) + 800;
 
       playBtn.addEventListener('click', async () => {
         if (playBtn.classList.contains('is-playing')) {
@@ -227,18 +236,23 @@
         setTimeout(() => {
           playBtn.classList.remove('is-playing');
           playBtn.textContent = '▶';
-        }, chords.length * (60 / currentBpm * 2000) + 500);
+        }, durationMs);
       });
     });
 
-    /* single chord cards */
-    document.querySelectorAll('.chord-card[data-chord]').forEach(card => {
+    /* chord cards — stesso guard */
+    document.querySelectorAll('.chord-card[data-chord]:not([data-audio-init])').forEach(card => {
+      card.dataset.audioInit = '1';
       card.addEventListener('click', async () => {
         await playChord(card.getAttribute('data-chord'));
       });
     });
   }
 
+  /* Chiama initChordStrips al primo langChanged (che scatta durante
+     applyBasicPageLocalization, prima di DOMContentLoaded) e dopo ogni
+     cambio lingua che sostituisce il DOM. DOMContentLoaded è il fallback
+     per il caso in cui langChanged non sia stato emesso (pagine senza i18n). */
   document.addEventListener('DOMContentLoaded', initChordStrips);
   document.addEventListener('fisarmonica:langChanged', () => {
     requestAnimationFrame(initChordStrips);

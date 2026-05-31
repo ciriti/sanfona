@@ -6,6 +6,7 @@
     { id: 'xote',          href: 'xote.html',          label: 'Xote & Levada' },
     { id: 'tecnica',       href: 'tecnica.html',        label: 'Tecnica' },
     { id: 'scale-accordi', href: 'scale-accordi.html',  label: 'Scale & Accordi' },
+    { id: 'esercizi',      href: 'esercizi.html',       label: 'Esercizi' },
     { id: 'repertorio',    href: 'repertorio.html',     label: 'Repertório' },
   ];
 
@@ -102,10 +103,10 @@
     document.body.appendChild(footer);
   }
 
-  document.addEventListener('DOMContentLoaded', () => {
-    buildNav();
-    buildHeader();
-    addBackToTop();
-    addFooter();
-  });
+  /* Run immediately — scripts are at the bottom of <body>, so DOM content
+     above is already parsed and available without waiting for DOMContentLoaded. */
+  buildNav();
+  buildHeader();
+  addBackToTop();
+  addFooter();
 })();

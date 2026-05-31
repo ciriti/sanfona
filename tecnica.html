@@ -250,13 +250,14 @@ Mano destra:   Do tenuto per 8 battute
   <script src="js/progress.js"></script>
   <script src="js/audio.js"></script>
   <script>
-    if (window.FisarmonicaProgress) {
-      window.FisarmonicaProgress.buildSidebar();
-      window.FisarmonicaProgress.initScrollSpy();
-    }
-  </script>
-  <script>
     (() => {
+      document.addEventListener('fisarmonica:langChanged', () => {
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+      });
+
       const loc = window.FisarmonicaI18n.applyBasicPageLocalization('tecnica', {});
       const lang = loc.lang;
       window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
@@ -268,13 +269,6 @@ Mano destra:   Do tenuto per 8 battute
         window.addEventListener('scroll', syncBackToTop, { passive: true });
         syncBackToTop();
       }
-
-      document.addEventListener('fisarmonica:langChanged', () => {
-        if (window.FisarmonicaProgress) {
-          window.FisarmonicaProgress.buildSidebar();
-          window.FisarmonicaProgress.initScrollSpy();
-        }
-      });
     })();
   </script>
 </body>

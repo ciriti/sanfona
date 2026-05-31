@@ -340,23 +340,23 @@ Tecnica mantice: frasi liriche lunghe richiedono gestione attenta del fole.</pre
   <script src="js/progress.js"></script>
   <script src="js/audio.js"></script>
   <script>
-    if (window.FisarmonicaProgress) {
-      window.FisarmonicaProgress.buildSidebar();
-      window.FisarmonicaProgress.initScrollSpy();
-    }
-  </script>
-  <script>
     (() => {
-      const loc = window.FisarmonicaI18n.applyBasicPageLocalization('repertorio', {});
-      const lang = loc.lang;
-      window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
-      window.FisarmonicaI18n.setupMobilePreferenceSheet(lang);
-
-      const backToTop = document.getElementById('back-to-top');
-      if (backToTop) {
-        const syncBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
-        window.addEventListener('scroll', syncBackToTop, { passive: true });
-        syncBackToTop();
+      function setupChordPills() {
+        if (!window.FisarmonicaChords) return;
+        const { createPianoKeyboardSvg, createStradellaDiagram, createHoverCardSystem } = window.FisarmonicaChords;
+        const renderChordDiagram = (container, chord) => {
+          container.replaceChildren();
+          container.appendChild(createPianoKeyboardSvg(chord.name || chord));
+          container.appendChild(createStradellaDiagram(chord.name || chord));
+        };
+        const { show, hide, position } = createHoverCardSystem({ renderDiagram: renderChordDiagram });
+        document.querySelectorAll('.chord-strip .chord-pill').forEach(pill => {
+          const chordName = pill.textContent.trim();
+          if (!chordName) return;
+          pill.addEventListener('mouseenter', e => show(pill, { name: chordName }, { x: e.clientX, y: e.clientY }));
+          pill.addEventListener('mousemove', e => position(e.clientX, e.clientY));
+          pill.addEventListener('mouseleave', hide);
+        });
       }
 
       document.addEventListener('fisarmonica:langChanged', () => {
@@ -364,7 +364,18 @@ Tecnica mantice: frasi liriche lunghe richiedono gestione attenta del fole.</pre
           window.FisarmonicaProgress.buildSidebar();
           window.FisarmonicaProgress.initScrollSpy();
         }
+        setupChordPills();
       });
+
+      window.FisarmonicaI18n.applyBasicPageLocalization('repertorio', {});
+      window.FisarmonicaI18n.setupMobilePreferenceSheet();
+
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const syncBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        window.addEventListener('scroll', syncBackToTop, { passive: true });
+        syncBackToTop();
+      }
     })();
   </script>
 </body>
