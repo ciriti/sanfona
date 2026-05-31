@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Tecnica</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" defer></script>
+  <style>
+    :root {
+      --genre-accent-rgb: 180, 90, 40;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="tecnica"
+    data-title="Tecnica"
+    data-subtitle="Mano destra, sinistra, mantice: gli esercizi fondamentali della fisarmonica nordestina">
+  </header>
+
+  <div class="bpm-bar">
+    <button class="metro-play-btn" id="metronome-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.toggleMetronome()">&#9654;</button>
+    <label class="bpm-label" for="bpm-slider">Tempo</label>
+    <input type="range" id="bpm-slider" min="40" max="160" value="80"
+      oninput="window.FisarmonicaAudio && window.FisarmonicaAudio.updateBpm(this.value)">
+    <span class="bpm-value" id="bpm-value">80 BPM</span>
+    <div class="rhythm-presets">
+      <button class="rhythm-btn active" data-rhythm="xote"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('xote')">Xote</button>
+      <button class="rhythm-btn" data-rhythm="baiao"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('baiao')">Baião</button>
+      <button class="rhythm-btn" data-rhythm="arrasta"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('arrasta')">Arrasta-pé</button>
+    </div>
+    <button class="stop-all-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.stopActive()">&#9632; Stop</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="page-layout">
+
+      <aside class="progress-sidebar" id="progress-sidebar" aria-label="Progresso dei moduli"></aside>
+
+      <main class="content-column">
+
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">Tec 1</span>
+            <div>
+              <div class="section-title">Postura e Impugnatura</div>
+            </div>
+          </div>
+          <p>Seduto: fisarmonica sul ginocchio sinistro, cinghie regolate. Cinghia sinistra: polso fermo ma mobile, NON rigido. Mano destra: 5 dita numerate (1=pollice, 5=mignolo), curva naturale e rilassata.</p>
+          <ul>
+            <li>Seduto con la schiena dritta — la fisarmonica non si deve appoggiarsi al corpo</li>
+            <li>Cinghia di spalla destra stretta, cinghia sinistra sul polso lasciata più lenta</li>
+            <li>Spalle rilassate — la tensione si trasmette al suono</li>
+          </ul>
+          <div class="exercise-block">
+            <strong>Esercizio:</strong> Tieni lo strumento fermo, apri e chiudi il mantice senza premere tasti — il suono deve essere uniforme senza oscillazioni. Questo allena il controllo del mantice indipendentemente dal movimento delle dita.
+          </div>
+        </section>
+
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">Tec 2</span>
+            <div>
+              <div class="section-title">Il Mantice (O Fole)</div>
+              <div class="section-subtitle">Il respiro della fisarmonica</div>
+            </div>
+          </div>
+          <p>Il mantice è il "respiro" della fisarmonica — controlla volume e fraseggio. Il cambio di direzione va fatto sulla nota meno accentata (arsi), mai a metà di una nota forte. Esaurire il mantice porta a un suono soffocato.</p>
+
+          <div class="mantice-diagram">
+            <div class="bellows-visual">
+              <svg viewBox="0 0 240 60" width="240" height="60" aria-label="Diagramma apertura e chiusura mantice">
+                <!-- apertura -->
+                <rect x="5" y="20" width="80" height="20" rx="4" fill="rgba(180,90,40,.15)" stroke="rgba(180,90,40,.5)" stroke-width="1.5"/>
+                <text x="45" y="34" text-anchor="middle" font-size="10" font-family="monospace" fill="rgba(180,90,40,1)">→ APRI</text>
+                <!-- separatore -->
+                <line x1="120" y1="10" x2="120" y2="50" stroke="#3a2e22" stroke-width="1"/>
+                <!-- chiusura -->
+                <rect x="155" y="20" width="80" height="20" rx="4" fill="rgba(82,183,136,.12)" stroke="rgba(82,183,136,.4)" stroke-width="1.5"/>
+                <text x="195" y="34" text-anchor="middle" font-size="10" font-family="monospace" fill="#52b788">← CHIUDI</text>
+              </svg>
+            </div>
+            <div class="bellows-label">← Apertura &nbsp;|&nbsp; Chiusura →</div>
+          </div>
+
+          <pre>Battuta 1: → → → → (apertura)
+Battuta 2: ← ← ← ← (chiusura)
+Battuta 3: → → ← ← (cambio a metà — da evitare sul tempo forte)</pre>
+
+          <div class="exercise-block">
+            <strong>Esercizio mantice:</strong> Tieni la nota La per 4 beat, cambia direzione su ogni battuta. Concentrati sull'inaudibilità del cambio.<br><br>
+            <strong>Crescendo/Decrescendo:</strong> Apri il mantice lentamente (crescendo naturale) → chiudi lentamente (decrescendo). Questo è il controllo dinamico fondamentale.
+          </div>
+        </section>
+
+        <section id="s3">
+          <div class="section-header">
+            <span class="section-num">Tec 3</span>
+            <div>
+              <div class="section-title">Mano Destra: Scale</div>
+            </div>
+          </div>
+
+          <h4>Scala di Do Maggiore</h4>
+          <pre>C – D – E – F – G – A – B – C
+1 – 2 – 3 – 1 – 2 – 3 – 4 – 5
+          ↑ pollice passa sotto sul F</pre>
+
+          <h4>Scala di Sol Maggiore</h4>
+          <pre>G – A – B – C – D – E – F# – G
+1 – 2 – 3 – 1 – 2 – 3 – 4 – 5</pre>
+
+          <h4>Pentatonica di Sol (base dell'improvvisazione forró)</h4>
+          <pre>G – A – B – D – E  (5 note — salta il 4°)
+1 – 2 – 3 – 5 – 1</pre>
+
+          <h4>Pentatonica di La minore</h4>
+          <pre>A – C – D – E – G
+1 – 2 – 3 – 4 – 5</pre>
+
+          <div class="exercise-block">
+            <strong>Esercizio scale:</strong> Ogni scala su e giù a 50 BPM → 80 BPM con metronomo. Lento è veloce — dai priorità alla regolarità sulla velocità.
+          </div>
+        </section>
+
+        <section id="s4">
+          <div class="section-header">
+            <span class="section-num">Tec 4</span>
+            <div>
+              <div class="section-title">Mano Destra: Ornamenti del Forró</div>
+              <div class="section-subtitle">Il suono nordestino si costruisce sugli ornamenti</div>
+            </div>
+          </div>
+
+          <h4>Mordente</h4>
+          <p>Nota principale + nota vicina velocissima. Es: suona D, poi immediatamente E→D (un "battito").</p>
+          <pre>Scritto: D̃   Suonato: (E)–D  [velocissimo]</pre>
+
+          <h4>Glissato</h4>
+          <p>Scivolata tra due note — il suono nordestino per eccellenza. Es: scivola dal C al G sul beat.</p>
+          <pre>Scritto: C~~~G   Gesto: scivola senza staccare</pre>
+
+          <h4>Trillo</h4>
+          <p>Oscillazione rapida tra due note (A–B–A–B–A). Per frasi espressive.</p>
+          <pre>A–B–A–B–A  (so rapidamente che suona come vibrato)</pre>
+
+          <h4>Portamento</h4>
+          <p>Nota "tirata" — premi piano poi forte nello stesso beat, creando un gonfiore.</p>
+          <pre>piano ——→ forte  [sullo stesso tasto, nello stesso tempo]</pre>
+
+          <div class="exercise-block">
+            <strong>Esercizio ornamenti:</strong> Pratica ogni ornamento in isolamento su una sola nota a 60 BPM prima di integrarli nelle melodie. Un ornamento frettoloso è peggio dell'assenza dell'ornamento.
+          </div>
+        </section>
+
+        <section id="s5">
+          <div class="section-header">
+            <span class="section-num">Tec 5</span>
+            <div>
+              <div class="section-title">Mano Sinistra: Sistema Stradella</div>
+              <div class="section-subtitle">Il sistema di bassi più diffuso al mondo</div>
+            </div>
+          </div>
+
+          <p>Il sistema Stradella organizza i bottoni per <strong>cerchio delle quinte</strong>. Ci sono 6 colonne per riga: Contrabbasso / Basso / Maggiore / Minore / Dom7 / Dim7.</p>
+
+          <p><strong>Nota di ancoraggio:</strong> Il Do (C) ha un entalho fisico sul bottone — tutto il resto si naviga da lì.</p>
+
+          <h4>Come trovare qualsiasi accordo senza guardare</h4>
+          <ol>
+            <li>Trova C (entalho tattile)</li>
+            <li>Muovi a destra = quinta sopra (G, D, A, E, B, F#…)</li>
+            <li>Muovi a sinistra = quinta sotto (F, Bb, Eb…)</li>
+            <li>Poi muovi tra le colonne: 3ª = maggiore, 4ª = minore, 5ª = dom7</li>
+          </ol>
+
+          <table>
+            <thead><tr><th>Accordo</th><th>Riga rispetto a C</th><th>Colonna</th></tr></thead>
+            <tbody>
+              <tr><td>G</td><td>+1 (destra)</td><td>Maggiore (3ª)</td></tr>
+              <tr><td>D7</td><td>+2 (destra)</td><td>Dom7 (5ª)</td></tr>
+              <tr><td>C</td><td>0 (ancora)</td><td>Maggiore (3ª)</td></tr>
+              <tr><td>Am</td><td>+3 (destra)</td><td>Minore (4ª)</td></tr>
+              <tr><td>Em</td><td>+4 (destra)</td><td>Minore (4ª)</td></tr>
+              <tr><td>F</td><td>-1 (sinistra)</td><td>Maggiore (3ª)</td></tr>
+              <tr><td>Dm</td><td>+2 (destra)</td><td>Minore (4ª)</td></tr>
+            </tbody>
+          </table>
+
+          <div class="exercise-block">
+            <strong>Esercizio:</strong> Trova G, D7, Em, Am ad occhi chiusi in 30 secondi. Ripeti ogni giorno.
+          </div>
+        </section>
+
+        <section id="s6">
+          <div class="section-header">
+            <span class="section-num">Tec 6</span>
+            <div>
+              <div class="section-title">Coordinazione: Unire le Due Mani</div>
+              <div class="section-subtitle">La sfida più grande — e più gratificante</div>
+            </div>
+          </div>
+
+          <p>Ogni mano fa cose diverse. Il cervello ha bisogno di tempo per automatizzare entrambe contemporaneamente. Non correre questo processo.</p>
+
+          <h4>Metodo: automatizza prima un lato</h4>
+          <ol>
+            <li>Mano sinistra: pattern basso-accordo su G per 4 minuti → deve essere automatico</li>
+            <li>Mano destra: UNA SOLA NOTA ripetuta sul beat 1</li>
+            <li>Aggiungi la seconda nota della melodia</li>
+            <li>Aumenta le note gradualmente</li>
+          </ol>
+
+          <h4>Metodo "blocchi da 2 battute"</h4>
+          <p>Impara 2 battute, poi le 2 successive, poi uniscile — non affrontare mai una frase intera finché i pezzi non sono solidi.</p>
+
+          <pre>Mano sinistra: B–A–B–A (costante, automatica)
+Mano destra:   Do tenuto per 8 battute
+               → poi aggiungi Re
+               → poi Mi
+               → poi continua la melodia</pre>
+
+          <div class="exercise-block">
+            <strong>Importante:</strong> Il momento in cui le due mani si uniscono può richiedere settimane. È normale. Non accelerare questo processo. Suonare lentamente con piena attenzione vale più di suonare veloce con errori — gli errori si memorizzano tanto quanto le note giuste.
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/chords.js"></script>
+  <script src="js/data/tecnica-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/audio.js"></script>
+  <script>
+    if (window.FisarmonicaProgress) {
+      window.FisarmonicaProgress.buildSidebar();
+      window.FisarmonicaProgress.initScrollSpy();
+    }
+  </script>
+  <script>
+    (() => {
+      const loc = window.FisarmonicaI18n.applyBasicPageLocalization('tecnica', {});
+      const lang = loc.lang;
+      window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
+      window.FisarmonicaI18n.setupMobilePreferenceSheet(lang);
+
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const syncBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        window.addEventListener('scroll', syncBackToTop, { passive: true });
+        syncBackToTop();
+      }
+
+      document.addEventListener('fisarmonica:langChanged', () => {
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Repertório</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" defer></script>
+  <style>
+    :root {
+      --genre-accent-rgb: 140, 80, 160;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="repertorio"
+    data-title="Repertório"
+    data-subtitle="Asa Branca, Lamento Sertanejo, Xote das Meninas e altri classici del forró nordestino">
+  </header>
+
+  <div class="bpm-bar">
+    <button class="metro-play-btn" id="metronome-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.toggleMetronome()">&#9654;</button>
+    <label class="bpm-label" for="bpm-slider">Tempo</label>
+    <input type="range" id="bpm-slider" min="40" max="160" value="80"
+      oninput="window.FisarmonicaAudio && window.FisarmonicaAudio.updateBpm(this.value)">
+    <span class="bpm-value" id="bpm-value">80 BPM</span>
+    <div class="rhythm-presets">
+      <button class="rhythm-btn active" data-rhythm="xote"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('xote')">Xote</button>
+      <button class="rhythm-btn" data-rhythm="baiao"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('baiao')">Baião</button>
+      <button class="rhythm-btn" data-rhythm="arrasta"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('arrasta')">Arrasta-pé</button>
+    </div>
+    <button class="stop-all-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.stopActive()">&#9632; Stop</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="page-layout">
+
+      <aside class="progress-sidebar" id="progress-sidebar" aria-label="Progresso dei moduli"></aside>
+
+      <main class="content-column">
+
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">⭐</span>
+            <div>
+              <div class="section-title">Livello Principiante</div>
+            </div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">Asa Branca</div>
+                <div class="song-meta">Luiz Gonzaga, 1947 &mdash; Baião, tonalità Sol</div>
+              </div>
+              <span class="song-level">⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="G C D7 G C D7 G">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">C</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span>
+            </div>
+
+            <h4>Mano destra — tablatura</h4>
+            <pre>Verso:   5  5  5  3  5  6  5  3  2  1
+         Quan  do  o  sol  re  sol  via...
+Pattern: | B . A B | . A B . |  (baião)</pre>
+
+            <h4>Schema bassi mano sinistra</h4>
+            <pre>G:   basso G → accordo G (colonna 3ª, riga +1 da C)
+C:   basso C → accordo C (ancora Stradella)
+D7:  basso D → accordo D7 (colonna 5ª, riga +2 da C)</pre>
+
+            <h4>Testo originale (verso 1)</h4>
+            <p class="song-lyrics">
+              Quando o sol resolvia marchar<br>
+              Nos ares vi, meu bem<br>
+              Aviões vermelhos da Asa Branca<br>
+              Voando para o sul, asa branca
+            </p>
+            <div class="song-note">La pietra miliare del repertorio forró. Luiz Gonzaga la compose nel 1947 come lamento per la siccità del sertão nordestino. Il pattern baião e il giro I–IV–V7 la rendono la canzone ideale per iniziare.</div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">Xote das Meninas</div>
+                <div class="song-meta">Luiz Gonzaga &mdash; Xote, tonalità Sol</div>
+              </div>
+              <span class="song-level">⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="G D7 G D7 C G D7 G">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">C</span>
+            </div>
+
+            <pre>Pattern xote: | B . A . | B . A . |
+Melodia:  1  2  3  5  6  5  3  1  2  1</pre>
+
+            <div class="song-note">Uno xote vivace e giocoso, ideale per praticare il pattern boom-chick di base. Le frasi brevi rendono la melodia facile da memorizzare.</div>
+          </div>
+        </section>
+
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">⭐⭐</span>
+            <div>
+              <div class="section-title">Livello Base</div>
+            </div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">Paraíba</div>
+                <div class="song-meta">Luiz Gonzaga &mdash; Xote, tonalità Re</div>
+              </div>
+              <span class="song-level">⭐⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="D G A7 D G A7 D">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">D</span><span class="chord-sep">–</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">A7</span>
+            </div>
+
+            <pre>Stesso I–IV–V7 di Asa Branca, trasportato in Re.
+Melodia: 1  2  3  4  3  2  1</pre>
+
+            <div class="song-note">Un esercizio di trasposizione eccellente — conosci già il giro I–IV–V7 in Sol, ora applicalo in Re con il basso Stradella in nuove posizioni.</div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">No Meu Pé de Serra</div>
+                <div class="song-meta">Luiz Gonzaga &mdash; Baião, tonalità Re</div>
+              </div>
+              <span class="song-level">⭐⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="D A7 D A7 D">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">D</span><span class="chord-sep">–</span>
+              <span class="chord-pill">A7</span>
+            </div>
+
+            <div class="song-note">L'oscillazione I–V7 ridotta alla sua forma più pura. Estremamente ipnotica — il senso di baião si sente già con solo due accordi.</div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">Forró em Limoeiro</div>
+                <div class="song-meta">Tradizionale &mdash; Forró, tonalità La minore</div>
+              </div>
+              <span class="song-level">⭐⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="Am E7 Am E7 Am Dm E7 Am">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+              <span class="chord-pill">E7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Dm</span>
+            </div>
+
+            <div class="song-note">Prima canzone in tonalità minore — introduce l'atmosfera malinconica del sertão. L'oscillazione Am–E7 è un suono fondamentale del forró nordestino.</div>
+          </div>
+        </section>
+
+        <section id="s3">
+          <div class="section-header">
+            <span class="section-num">⭐⭐⭐</span>
+            <div>
+              <div class="section-title">Livello Intermedio</div>
+            </div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">Lamento Sertanejo</div>
+                <div class="song-meta">Dominguinhos / Gilberto Gil &mdash; Xote, tonalità Do</div>
+              </div>
+              <span class="song-level">⭐⭐⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="C Am F G7 C Am F G7">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">C</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+              <span class="chord-pill">F</span><span class="chord-sep">–</span>
+              <span class="chord-pill">G7</span>
+            </div>
+
+            <pre>Giro I–vi–IV–V7 — stesso G–Em–C–D7 trasportato in Do.
+Tecnica mantice: frasi liriche lunghe richiedono gestione attenta del fole.</pre>
+
+            <h4>Testo originale</h4>
+            <p class="song-lyrics">
+              Ei, morena, eu vim lhe contar<br>
+              Que no sertão tá chovendo demais<br>
+              As catinga tá toda brotando<br>
+              E o povo não tá mais sofrendo
+            </p>
+            <div class="song-note">Un capolavoro di Dominguinhos, reso famoso da Gilberto Gil. Richiede fraseggio legato e controllo espressivo del mantice — una vera sfida intermedia che premia ogni ora di studio.</div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">Rindo à Toa</div>
+                <div class="song-meta">Falamansa &mdash; Xote moderno, tonalità Sol</div>
+              </div>
+              <span class="song-level">⭐⭐⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="G D7 Em C G D7 Em C">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Em</span><span class="chord-sep">–</span>
+              <span class="chord-pill">C</span>
+            </div>
+
+            <div class="song-note">Forró moderno (forró universitário) che usa il ciclo I–V7–vi–IV pop. Falamansa ha portato il forró a una nuova generazione. Richiede tecnica pulita e precisa.</div>
+          </div>
+
+          <div class="song-card">
+            <div class="song-card-header">
+              <div>
+                <div class="song-title">Espalhei a Tristeza</div>
+                <div class="song-meta">Dominguinhos &mdash; Xote, tonalità La minore</div>
+              </div>
+              <span class="song-level">⭐⭐⭐</span>
+            </div>
+
+            <div class="chord-strip" data-chords="Am Dm E7 Am F C E7 Am">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Dm</span><span class="chord-sep">–</span>
+              <span class="chord-pill">E7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">F</span><span class="chord-sep">–</span>
+              <span class="chord-pill">C</span>
+            </div>
+
+            <div class="song-note">Dominguinhos alla sua massima espressività. Gli accordi prestati F e C danno a questo xote minore una qualità agrodolce. Concentrarsi sugli ornamenti — mordenti e glissati sono essenziali.</div>
+          </div>
+        </section>
+
+        <section id="s4">
+          <div class="section-header">
+            <span class="section-num">Metodo</span>
+            <div>
+              <div class="section-title">Come Studiare una Canzone</div>
+            </div>
+          </div>
+
+          <div class="study-week">
+            <div class="study-week-title">Passo 1 — Ascolta</div>
+            <p>Ascolta la canzone 10 volte prima di toccare la fisarmonica. Interiorizza melodia e ritmo prima di ogni cosa.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Passo 2 — Solo mano sinistra</div>
+            <p>Studia solo la levada + i cambi di accordo finché sono automatici al 50% della velocità.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Passo 3 — Solo mano destra</div>
+            <p>Impara solo la melodia, con la diteggiatura corretta e il fraseggio.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Passo 4 — Unisci a tempo ridotto</div>
+            <p>Metti insieme le due mani a velocità molto lenta. Nessun errore ammesso — meglio lento e giusto che veloce e sbagliato.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Passo 5 — Porta a tempo</div>
+            <p>Aumenta il BPM gradualmente nel corso di giorni o settimane. Correre questo passaggio vanifica tutto il lavoro precedente.</p>
+          </div>
+        </section>
+
+        <section id="s5">
+          <div class="section-header">
+            <span class="section-num">Improv</span>
+            <div>
+              <div class="section-title">Improvvisare sullo Xote</div>
+            </div>
+          </div>
+
+          <p>L'improvvisazione nel forró segue pochi principi semplici che aprono un vasto spazio espressivo:</p>
+
+          <ul>
+            <li><strong>Usa la pentatonica</strong> della tonalità — funziona su tutti gli accordi</li>
+            <li><strong>Torna alla tonica</strong> sul beat 1 di ogni frase di 4 battute</li>
+            <li><strong>Struttura domanda-risposta:</strong> frase ascendente (domanda) → discendente (risposta)</li>
+            <li><strong>Rubato:</strong> "rubare" il tempo tra le note per espressività — spingi avanti, poi respira indietro</li>
+            <li><strong>Il silenzio vale tanto quanto le note</strong> — una pausa nel posto giusto ha lo stesso valore di una nota</li>
+          </ul>
+
+          <div class="chord-strip" data-chords="G D7 Em C">
+            <span class="chord-strip-label">Base improvvisazione —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Em</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span>
+          </div>
+
+          <div class="exercise-block">
+            <strong>Esercizio:</strong> Su G–D7–Em–C a 70 BPM, improvvisa usando solo 3 note: G, B, D. Quando ti senti a tuo agio, aggiungi E e A. Il vincolo genera creatività.
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/chords.js"></script>
+  <script src="js/data/repertorio-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/audio.js"></script>
+  <script>
+    if (window.FisarmonicaProgress) {
+      window.FisarmonicaProgress.buildSidebar();
+      window.FisarmonicaProgress.initScrollSpy();
+    }
+  </script>
+  <script>
+    (() => {
+      const loc = window.FisarmonicaI18n.applyBasicPageLocalization('repertorio', {});
+      const lang = loc.lang;
+      window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
+      window.FisarmonicaI18n.setupMobilePreferenceSheet(lang);
+
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const syncBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        window.addEventListener('scroll', syncBackToTop, { passive: true });
+        syncBackToTop();
+      }
+
+      document.addEventListener('fisarmonica:langChanged', () => {
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

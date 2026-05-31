@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Metodo Pratico</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --genre-accent-rgb: 201, 149, 42;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="index"
+    data-title="Fisarmonica Forró"
+    data-subtitle="Un metodo pratico per imparare la sanfona nordestina — dal pattern basso-accordo al repertorio classico">
+  </header>
+
+  <div class="wrapper">
+
+    <section class="method-section" style="margin-top:0; border-color: rgba(201,149,42,.2);">
+      <h2>Da dove iniziare oggi?</h2>
+      <div class="start-grid">
+        <a href="xote.html" class="start-btn">Sono un principiante assoluto</a>
+        <a href="tecnica.html" class="start-btn">Ho già suonato fisarmonica</a>
+        <a href="scale-accordi.html" class="start-btn">Voglio capire la teoria</a>
+        <a href="repertorio.html" class="start-btn">Voglio suonare una canzone subito</a>
+      </div>
+    </section>
+
+    <div class="card-grid">
+
+      <a href="xote.html" class="pathway-card" style="--genre-accent-rgb:92,134,89; border-color: rgba(92,134,89,.2);">
+        <div class="pathway-card-icon">🪗</div>
+        <div class="pathway-card-title">Xote &amp; Levada</div>
+        <div class="pathway-card-desc">Il ritmo portante del forró: levada, pattern basso-accordo e giri cantabili. Il punto di partenza per chiunque.</div>
+      </a>
+
+      <a href="tecnica.html" class="pathway-card" style="--genre-accent-rgb:180,90,40; border-color: rgba(180,90,40,.2);">
+        <div class="pathway-card-icon">🤲</div>
+        <div class="pathway-card-title">Tecnica</div>
+        <div class="pathway-card-desc">Mano destra, sinistra, mantice: gli esercizi fondamentali per una fisarmonica solida e espressiva.</div>
+      </a>
+
+      <a href="scale-accordi.html" class="pathway-card" style="--genre-accent-rgb:201,149,42; border-color: rgba(201,149,42,.2);">
+        <div class="pathway-card-icon">🎵</div>
+        <div class="pathway-card-title">Scale &amp; Accordi</div>
+        <div class="pathway-card-desc">Scala maggiore, pentatonica, triadi e settima: il vocabolario completo della fisarmonica forró.</div>
+      </a>
+
+      <a href="repertorio.html" class="pathway-card" style="--genre-accent-rgb:140,80,160; border-color: rgba(140,80,160,.2);">
+        <div class="pathway-card-icon">🎶</div>
+        <div class="pathway-card-title">Repertório</div>
+        <div class="pathway-card-desc">Asa Branca, Lamento Sertanejo, Xote das Meninas e altri classici — dalla canzone più semplice alla più espressiva.</div>
+      </a>
+
+    </div>
+
+    <section class="method-section">
+      <h2>Come funziona il metodo</h2>
+      <div class="method-points">
+        <div class="method-point">
+          <div class="method-point-title">Suono prima, teoria dopo</div>
+          <p>Niente pentagramma, solo cifras e pattern pratici. Impari suonando, non leggendo.</p>
+        </div>
+        <div class="method-point">
+          <div class="method-point-title">Mano per mano</div>
+          <p>Ogni lato viene automatizzato separatamente. Solo quando ogni mano è "libera" le unisci.</p>
+        </div>
+        <div class="method-point">
+          <div class="method-point-title">Repertorio vero</div>
+          <p>Ogni concetto viene subito applicato su canzoni reali del forró nordestino.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="method-section" style="text-align:center;">
+      <h2>Il trio del forró</h2>
+      <p style="color:var(--text-body); max-width:540px; margin:0 auto;">
+        Nel trio classico nordestino la <strong style="color:rgba(201,149,42,1)">sanfona</strong> (fisarmonica)
+        guida melodia e armonia, la <em>zabumba</em> tiene il basso del ritmo,
+        il <em>triângulo</em> aggiunge la scintilla percussiva.
+        Questo metodo si concentra sulla sanfona — il cuore del suono.
+      </p>
+    </section>
+
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/data/index-content.js"></script>
+  <script>
+    (() => {
+      const loc = window.FisarmonicaI18n.applyBasicPageLocalization('index', {});
+      window.FisarmonicaInstruments.initInstrumentSwitchers(loc.lang);
+      window.FisarmonicaI18n.setupMobilePreferenceSheet(loc.lang);
+
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const syncBackToTop = () => {
+          backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        };
+        window.addEventListener('scroll', syncBackToTop, { passive: true });
+        syncBackToTop();
+      }
+    })();
+  </script>
+</body>
+</html>

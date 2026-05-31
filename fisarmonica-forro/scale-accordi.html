@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Scale &amp; Accordi</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" defer></script>
+  <style>
+    :root {
+      --genre-accent-rgb: 201, 149, 42;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="scale-accordi"
+    data-title="Scale &amp; Accordi"
+    data-subtitle="Scala maggiore, pentatonica, triadi e settima: il vocabolario armonico della fisarmonica forró">
+  </header>
+
+  <div class="bpm-bar">
+    <button class="metro-play-btn" id="metronome-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.toggleMetronome()">&#9654;</button>
+    <label class="bpm-label" for="bpm-slider">Tempo</label>
+    <input type="range" id="bpm-slider" min="40" max="160" value="80"
+      oninput="window.FisarmonicaAudio && window.FisarmonicaAudio.updateBpm(this.value)">
+    <span class="bpm-value" id="bpm-value">80 BPM</span>
+    <div class="rhythm-presets">
+      <button class="rhythm-btn active" data-rhythm="xote"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('xote')">Xote</button>
+      <button class="rhythm-btn" data-rhythm="baiao"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('baiao')">Baião</button>
+      <button class="rhythm-btn" data-rhythm="arrasta"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('arrasta')">Arrasta-pé</button>
+    </div>
+    <button class="stop-all-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.stopActive()">&#9632; Stop</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="page-layout">
+
+      <aside class="progress-sidebar" id="progress-sidebar" aria-label="Progresso dei moduli"></aside>
+
+      <main class="content-column">
+
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">S&amp;A 1</span>
+            <div>
+              <div class="section-title">Le Scale del Forró</div>
+            </div>
+          </div>
+
+          <h4>Do Maggiore</h4>
+          <pre>C  D  E  F  G  A  B  C
+1  2  3  4  5  6  7  8</pre>
+
+          <h4>Sol Maggiore</h4>
+          <pre>G  A  B  C  D  E  F# G
+1  2  3  4  5  6  7  8</pre>
+
+          <h4>Re Maggiore</h4>
+          <pre>D  E  F# G  A  B  C# D
+1  2  3  4  5  6  7  8</pre>
+
+          <h4>La minore Pentatonica (improvvisazione)</h4>
+          <pre>A  C  D  E  G  A
+1  b3 4  5  b7 8</pre>
+
+          <p>La scala pentatonica funziona su quasi tutti gli accordi del forró perché non contiene semitoni dissonanti. È il percorso più veloce verso l'improvvisazione melodica.</p>
+        </section>
+
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">S&amp;A 2</span>
+            <div>
+              <div class="section-title">Triadi: Costruire gli Accordi</div>
+            </div>
+          </div>
+
+          <h4>Triade Maggiore: R + 3M + 5G</h4>
+          <pre>G maggiore: G – B – D</pre>
+
+          <h4>Triade Minore: R + 3m + 5G</h4>
+          <pre>Am:         A – C – E</pre>
+
+          <h4>Settima di Dominante: R + 3M + 5G + 7m</h4>
+          <pre>D7:         D – F# – A – C</pre>
+
+          <table>
+            <thead><tr><th>Accordo</th><th>Note</th><th>Tipo</th><th>Funzione</th></tr></thead>
+            <tbody>
+              <tr><td>G</td><td>G–B–D</td><td>Maggiore</td><td>I in Sol</td></tr>
+              <tr><td>C</td><td>C–E–G</td><td>Maggiore</td><td>IV in Sol</td></tr>
+              <tr><td>D7</td><td>D–F#–A–C</td><td>Dom 7ª</td><td>V7 in Sol</td></tr>
+              <tr><td>Em</td><td>E–G–B</td><td>Minore</td><td>vi in Sol</td></tr>
+              <tr><td>Am</td><td>A–C–E</td><td>Minore</td><td>i in Am</td></tr>
+              <tr><td>E7</td><td>E–G#–B–D</td><td>Dom 7ª</td><td>V7 in Am</td></tr>
+              <tr><td>Dm</td><td>D–F–A</td><td>Minore</td><td>iv in Am</td></tr>
+            </tbody>
+          </table>
+
+          <h4>Galleria accordi</h4>
+          <div class="chord-gallery">
+            <div class="chord-card" data-chord="G"><div class="chord-card-name">G</div><div class="chord-card-type">Maggiore</div></div>
+            <div class="chord-card" data-chord="C"><div class="chord-card-name">C</div><div class="chord-card-type">Maggiore</div></div>
+            <div class="chord-card" data-chord="D7"><div class="chord-card-name">D7</div><div class="chord-card-type">Dom 7ª</div></div>
+            <div class="chord-card" data-chord="Em"><div class="chord-card-name">Em</div><div class="chord-card-type">Minore</div></div>
+            <div class="chord-card" data-chord="Am"><div class="chord-card-name">Am</div><div class="chord-card-type">Minore</div></div>
+            <div class="chord-card" data-chord="E7"><div class="chord-card-name">E7</div><div class="chord-card-type">Dom 7ª</div></div>
+            <div class="chord-card" data-chord="Dm"><div class="chord-card-name">Dm</div><div class="chord-card-type">Minore</div></div>
+            <div class="chord-card" data-chord="F"><div class="chord-card-name">F</div><div class="chord-card-type">Maggiore</div></div>
+          </div>
+        </section>
+
+        <section id="s3">
+          <div class="section-header">
+            <span class="section-num">S&amp;A 3</span>
+            <div>
+              <div class="section-title">Arpeggi</div>
+            </div>
+          </div>
+
+          <p>Un arpeggio suona le note di un accordo una alla volta in sequenza. Nel forró, gli arpeggi aggiungono varietà melodica sulle note lunghe.</p>
+
+          <pre>Sol ascendente:   G3–B3–D4–G4
+Sol discendente:  G4–D4–B3–G3
+Sol "broken":     G3–D4–B3–G4</pre>
+
+          <div class="chord-strip" data-chords="G C D7 G">
+            <span class="chord-strip-label">Esercizio arpeggi —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">G</span>
+          </div>
+
+          <div class="exercise-block">
+            <strong>Esercizio:</strong> Arpeggio su ogni accordo del giro G–C–D7–G a 60 BPM, prima ascendente, poi discendente, poi "broken".
+          </div>
+        </section>
+
+        <section id="s4">
+          <div class="section-header">
+            <span class="section-num">S&amp;A 4</span>
+            <div>
+              <div class="section-title">Progressioni Armoniche del Forró</div>
+            </div>
+          </div>
+
+          <h4>I–V7–vi–IV (il giro più cantabile dello xote moderno)</h4>
+          <div class="chord-strip" data-chords="G D7 Em C">
+            <span class="chord-strip-label">in Sol —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Em</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span>
+          </div>
+          <div class="chord-strip" data-chords="D A7 Bm G">
+            <span class="chord-strip-label">in Re —</span>
+            <span class="chord-pill">D</span><span class="chord-sep">–</span>
+            <span class="chord-pill">A7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Bm</span><span class="chord-sep">–</span>
+            <span class="chord-pill">G</span>
+          </div>
+
+          <h4>I–IV–V7–I (il giro classico del forró pé-de-serra)</h4>
+          <div class="chord-strip" data-chords="G C D7 G">
+            <span class="chord-strip-label">in Sol —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">G</span>
+          </div>
+
+          <h4>i–iv–V7–i (xote minore nordestino)</h4>
+          <div class="chord-strip" data-chords="Am Dm E7 Am">
+            <span class="chord-strip-label">in Am —</span>
+            <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Dm</span><span class="chord-sep">–</span>
+            <span class="chord-pill">E7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Am</span>
+          </div>
+
+          <h4>I–V7 (oscillazione baião — il più semplice e il più ipnotico)</h4>
+          <div class="chord-strip" data-chords="G D7 G D7">
+            <span class="chord-strip-label">in Sol —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span>
+          </div>
+        </section>
+
+        <section id="s5">
+          <div class="section-header">
+            <span class="section-num">S&amp;A 5</span>
+            <div>
+              <div class="section-title">Trasporto: Cambiare Tonalità</div>
+            </div>
+          </div>
+
+          <p>Dovrai trasporre per adattarti alla voce del cantante. Le relazioni intervalliche restano identiche in ogni tonalità.</p>
+
+          <table>
+            <thead><tr><th>Giro</th><th>in Sol</th><th>in Re</th><th>in La</th></tr></thead>
+            <tbody>
+              <tr><td>I–IV–V7</td><td>G–C–D7</td><td>D–G–A7</td><td>A–D–E7</td></tr>
+              <tr><td>I–V7–vi–IV</td><td>G–D7–Em–C</td><td>D–A7–Bm–G</td><td>A–E7–F#m–D</td></tr>
+              <tr><td>i–iv–V7</td><td>Gm–Cm–D7</td><td>Am–Dm–E7</td><td>Em–Am–B7</td></tr>
+            </tbody>
+          </table>
+
+          <div class="exercise-block">
+            <strong>Esercizio:</strong> Suona G–C–D7 in Sol, poi trasponi in Re (D–G–A7), poi in La (A–D–E7). Stesso pattern, nuove posizioni sul basso Stradella.
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/chords.js"></script>
+  <script src="js/data/scale-accordi-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/audio.js"></script>
+  <script>
+    if (window.FisarmonicaProgress) {
+      window.FisarmonicaProgress.buildSidebar();
+      window.FisarmonicaProgress.initScrollSpy();
+    }
+  </script>
+  <script>
+    (() => {
+      const loc = window.FisarmonicaI18n.applyBasicPageLocalization('scale-accordi', {});
+      const lang = loc.lang;
+      window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
+      window.FisarmonicaI18n.setupMobilePreferenceSheet(lang);
+
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const syncBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        window.addEventListener('scroll', syncBackToTop, { passive: true });
+        syncBackToTop();
+      }
+
+      function setupChordCards() {
+        const { createPianoKeyboardSvg, createStradellaDiagram, createHoverCardSystem } = window.FisarmonicaChords;
+
+        const renderChordDiagram = (container, chord) => {
+          container.replaceChildren();
+          container.appendChild(createPianoKeyboardSvg(chord.name || chord));
+          container.appendChild(createStradellaDiagram(chord.name || chord));
+        };
+
+        const { show, hide, position } = createHoverCardSystem({ renderDiagram: renderChordDiagram });
+
+        document.querySelectorAll('.chord-gallery .chord-card').forEach(card => {
+          const chordName = card.getAttribute('data-chord');
+          if (!chordName) return;
+          card.addEventListener('mouseenter', e => show(card, { name: chordName }, { x: e.clientX, y: e.clientY }));
+          card.addEventListener('mousemove', e => position(e.clientX, e.clientY));
+          card.addEventListener('mouseleave', hide);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', setupChordCards);
+      document.addEventListener('fisarmonica:langChanged', () => {
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+        requestAnimationFrame(setupChordCards);
+      });
+    })();
+  </script>
+</body>
+</html>

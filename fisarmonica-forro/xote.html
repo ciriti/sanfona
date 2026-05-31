@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Xote &amp; Levada</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" defer></script>
+  <style>
+    :root {
+      --genre-accent-rgb: 92, 134, 89;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="xote"
+    data-title="Xote &amp; Levada"
+    data-subtitle="Il ritmo portante del forró: pattern basso-accordo, giri armonici e levada pratica">
+  </header>
+
+  <div class="bpm-bar">
+    <button class="metro-play-btn" id="metronome-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.toggleMetronome()">&#9654;</button>
+    <label class="bpm-label" for="bpm-slider">Tempo</label>
+    <input type="range" id="bpm-slider" min="40" max="160" value="80"
+      oninput="window.FisarmonicaAudio && window.FisarmonicaAudio.updateBpm(this.value)">
+    <span class="bpm-value" id="bpm-value">80 BPM</span>
+    <div class="rhythm-presets">
+      <button class="rhythm-btn active" data-rhythm="xote"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('xote')">Xote</button>
+      <button class="rhythm-btn" data-rhythm="baiao"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('baiao')">Baião</button>
+      <button class="rhythm-btn" data-rhythm="arrasta"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('arrasta')">Arrasta-pé</button>
+    </div>
+    <button class="stop-all-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.stopActive()">&#9632; Stop</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="page-layout">
+
+      <aside class="progress-sidebar" id="progress-sidebar" aria-label="Progresso dei moduli"></aside>
+
+      <main class="content-column">
+
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">Mod. Intro</span>
+            <div>
+              <div class="section-title">La Fisarmonica nel Forró</div>
+              <div class="section-subtitle">La spina dorsale del trio nordestino</div>
+            </div>
+          </div>
+          <p>Nel trio classico del forró — sanfona, zabumba e triângulo — la fisarmonica è allo stesso tempo la voce melodica e la fondazione armonica. Suona il basso con la mano sinistra mentre la destra porta la melodia, rendendola sia sezione ritmica che strumento solista.</p>
+
+          <h4>Tipi di fisarmonica nel forró</h4>
+          <table>
+            <thead><tr><th>Tipo</th><th>Tasti/Bottoni</th><th>Uso</th></tr></thead>
+            <tbody>
+              <tr><td>Diatonica 8 bassi</td><td>10/8</td><td>Forró pé-de-serra tradizionale</td></tr>
+              <tr><td>Cromatica 120 bassi</td><td>41</td><td>Forró moderno, xote, baião</td></tr>
+            </tbody>
+          </table>
+
+          <h4>Il mantice</h4>
+          <p>Il mantice è l'"archetto" della fisarmonica — aprendolo e chiudendolo si controllano volume, articolazione e fraseggio. Il cambio di direzione è un'arte: va fatto sui tempi deboli per mantenere la linea musicale fluida.</p>
+
+          <h4>I ritmi del forró</h4>
+          <table>
+            <thead><tr><th>Ritmo</th><th>BPM</th><th>Carattere</th></tr></thead>
+            <tbody>
+              <tr><td>Xote</td><td>70–95</td><td>Fluido, lirico, romantico</td></tr>
+              <tr><td>Baião</td><td>85–110</td><td>Sincopato, energico, terroso</td></tr>
+              <tr><td>Arrasta-pé</td><td>100–130</td><td>Veloce, festivo, da ballo</td></tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">Mod. 0</span>
+            <div>
+              <div class="section-title">Il Pattern Basso-Accordo (Boom-Chick)</div>
+              <div class="section-subtitle">Il cuore della mano sinistra nel forró</div>
+            </div>
+          </div>
+          <p>L'intera fondazione della tecnica della mano sinistra nel forró si basa su un unico pattern: alternare una nota di basso singola con un accordo completo. Questo crea il "boom-chick" che guida la danza.</p>
+
+          <div class="rhythm-grid" data-rhythm="xote">
+            <div class="rhythm-label">Mano sinistra — Xote 2/4</div>
+            <div class="beat-row">
+              <span class="beat on bass" data-beat="1">B</span>
+              <span class="beat off" data-beat="e">.</span>
+              <span class="beat on chord" data-beat="&">A</span>
+              <span class="beat off" data-beat="a">.</span>
+              <span class="beat on bass" data-beat="2">B</span>
+              <span class="beat off" data-beat="e">.</span>
+              <span class="beat on chord" data-beat="&">A</span>
+              <span class="beat off" data-beat="a">.</span>
+            </div>
+            <div class="beat-legend">
+              <span class="legend-bass">■ Basso (nota singola)</span>
+              <span class="legend-chord">■ Accordo</span>
+            </div>
+          </div>
+
+          <pre>Xote 2/4:  | B . A . | B . A . |
+             1   &   2   &
+B = Nota di basso  A = Accordo</pre>
+
+          <div class="chord-strip" data-chords="G G G G">
+            <span class="chord-strip-label">Esercizio base —</span>
+            <span class="chord-pill">G</span>
+            <span class="chord-sep">×4</span>
+          </div>
+
+          <div class="exercise-block">
+            <strong>Esercizio:</strong> Su un solo accordo (G), pratica il pattern basso-accordo a 60 BPM finché non diventa automatico. Poi porta a 80 BPM. La mano sinistra deve diventare una "macchina" prima di aggiungere la melodia.
+          </div>
+
+          <div class="chord-strip" data-chords="G D7 Em C">
+            <span class="chord-strip-label">Giro principale —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Em</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span>
+          </div>
+        </section>
+
+        <section id="s3">
+          <div class="section-header">
+            <span class="section-num">Mod. A</span>
+            <div>
+              <div class="section-title">Tonalità di Sol — Xote Cantabile</div>
+              <div class="section-subtitle">Il giro più melodico del forró</div>
+            </div>
+          </div>
+
+          <div class="chord-strip" data-chords="G D7 Em C">
+            <span class="chord-strip-label">I–V7–vi–IV —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Em</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span>
+          </div>
+
+          <div class="chord-strip" data-chords="C G D7 G">
+            <span class="chord-strip-label">Chiusura —</span>
+            <span class="chord-pill">C</span><span class="chord-sep">–</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">G</span>
+          </div>
+
+          <div class="chord-strip" data-chords="Em C G D7">
+            <span class="chord-strip-label">Verso malinconico —</span>
+            <span class="chord-pill">Em</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span><span class="chord-sep">–</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span>
+          </div>
+
+          <h4>Galleria accordi — Sol maggiore</h4>
+          <div class="chord-gallery">
+            <div class="chord-card" data-chord="G"><div class="chord-card-name">G</div><div class="chord-card-type">Maggiore</div></div>
+            <div class="chord-card" data-chord="D7"><div class="chord-card-name">D7</div><div class="chord-card-type">Dom 7ª</div></div>
+            <div class="chord-card" data-chord="Em"><div class="chord-card-name">Em</div><div class="chord-card-type">Minore</div></div>
+            <div class="chord-card" data-chord="C"><div class="chord-card-name">C</div><div class="chord-card-type">Maggiore</div></div>
+          </div>
+
+          <div class="exercise-block">
+            <strong>Levada xote in Sol:</strong> pratica il cambio G→D7 con metronomo a 70 BPM. Poi porta a 90 BPM solo quando il cambio è completamente fluido — nessun rallentamento.
+          </div>
+        </section>
+
+        <section id="s4">
+          <div class="section-header">
+            <span class="section-num">Mod. B</span>
+            <div>
+              <div class="section-title">Tonalità di La minore — Xote Nordestino</div>
+              <div class="section-subtitle">Il colore più scuro e nostalgico del sertão</div>
+            </div>
+          </div>
+
+          <p>Lo xote in tonalità minore ha una qualità malinconica tipica del nordest brasiliano — evoca la <em>saudade</em> e il paesaggio arido del sertão. Il <strong>Am è il colore della saudade nordestina</strong>.</p>
+
+          <div class="chord-strip" data-chords="Am E7 Am E7">
+            <span class="chord-strip-label">Oscillazione —</span>
+            <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+            <span class="chord-pill">E7</span>
+          </div>
+
+          <div class="chord-strip" data-chords="Am Dm E7 Am">
+            <span class="chord-strip-label">i–iv–V7–i —</span>
+            <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Dm</span><span class="chord-sep">–</span>
+            <span class="chord-pill">E7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">Am</span>
+          </div>
+
+          <div class="chord-strip" data-chords="Am F C E7">
+            <span class="chord-strip-label">Con accordo prestato —</span>
+            <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+            <span class="chord-pill">F</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span><span class="chord-sep">–</span>
+            <span class="chord-pill">E7</span>
+          </div>
+
+          <h4>Galleria accordi — La minore</h4>
+          <div class="chord-gallery">
+            <div class="chord-card" data-chord="Am"><div class="chord-card-name">Am</div><div class="chord-card-type">Minore</div></div>
+            <div class="chord-card" data-chord="E7"><div class="chord-card-name">E7</div><div class="chord-card-type">Dom 7ª</div></div>
+            <div class="chord-card" data-chord="Dm"><div class="chord-card-name">Dm</div><div class="chord-card-type">Minore</div></div>
+            <div class="chord-card" data-chord="F"><div class="chord-card-name">F</div><div class="chord-card-type">Maggiore</div></div>
+          </div>
+        </section>
+
+        <section id="s5">
+          <div class="section-header">
+            <span class="section-num">Mod. C</span>
+            <div>
+              <div class="section-title">Levada Avanzata — Variazioni del Pattern</div>
+            </div>
+          </div>
+
+          <pre>Variazione 1: B A B B  (raddoppio basso per enfasi)
+Variazione 2: B A . A  (pausa sul 3° movimento)
+Variazione 3: B crom. A  (nota di passaggio cromatica)</pre>
+
+          <div class="chord-strip" data-chords="G C D7 G">
+            <span class="chord-strip-label">Esercizio variazioni —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">C</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+            <span class="chord-pill">G</span>
+          </div>
+
+          <div class="exercise-block">
+            Prima automatizza la levada base su un accordo fisso per 5 minuti. Solo dopo introduce le variazioni — una alla volta. Alterna variazione ogni 4 battute sul giro G–C–D7–G.
+          </div>
+        </section>
+
+        <section id="s6">
+          <div class="section-header">
+            <span class="section-num">Mod. D</span>
+            <div>
+              <div class="section-title">Il Baião</div>
+              <div class="section-subtitle">Il capolavoro sincopato di Luiz Gonzaga</div>
+            </div>
+          </div>
+
+          <div class="rhythm-grid" data-rhythm="baiao">
+            <div class="rhythm-label">Mano sinistra — Baião 2/4 (sincopato)</div>
+            <div class="beat-row">
+              <span class="beat on bass" data-beat="1">B</span>
+              <span class="beat off" data-beat="e">.</span>
+              <span class="beat on chord" data-beat="&">A</span>
+              <span class="beat on bass" data-beat="a">B</span>
+              <span class="beat off" data-beat="2">.</span>
+              <span class="beat on chord" data-beat="e">A</span>
+              <span class="beat on bass" data-beat="&">B</span>
+              <span class="beat off" data-beat="a">.</span>
+            </div>
+            <div class="beat-legend">
+              <span class="legend-bass">■ Basso</span>
+              <span class="legend-chord">■ Accordo</span>
+            </div>
+          </div>
+
+          <pre>Baião 2/4: | B . A B | . A B . |
+             1   &  a   &  1   &
+L'accento spostato = "molho" del baião</pre>
+
+          <p>Nel baião la sincope crea una tensione ritmica irresistibile. Luiz Gonzaga, il "Re del Baião", ha costruito la sua intera carriera su questo pattern. <strong>Nota: Asa Branca usa questo giro.</strong></p>
+
+          <div class="chord-strip" data-chords="G D7 G D7">
+            <span class="chord-strip-label">Baião classico (Gonzaga) —</span>
+            <span class="chord-pill">G</span><span class="chord-sep">–</span>
+            <span class="chord-pill">D7</span>
+          </div>
+
+          <div class="chord-strip" data-chords="Am E7 Am E7">
+            <span class="chord-strip-label">Baião minore —</span>
+            <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+            <span class="chord-pill">E7</span>
+          </div>
+
+          <h4>Galleria accordi</h4>
+          <div class="chord-gallery">
+            <div class="chord-card" data-chord="G"><div class="chord-card-name">G</div><div class="chord-card-type">Maggiore</div></div>
+            <div class="chord-card" data-chord="D7"><div class="chord-card-name">D7</div><div class="chord-card-type">Dom 7ª</div></div>
+          </div>
+        </section>
+
+        <section id="s7">
+          <div class="section-header">
+            <span class="section-num">Piano</span>
+            <div>
+              <div class="section-title">Checklist &amp; Piano di Studio</div>
+            </div>
+          </div>
+
+          <div class="study-week">
+            <div class="study-week-title">Settimana 1</div>
+            <p>Pattern basso-accordo in G, 30 min/giorno. Deve diventare meccanico.</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Settimana 2</div>
+            <p>Giro I–V7–vi–IV in Sol, da 60 a 80 BPM</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Settimana 3</div>
+            <p>Tonalità Am: giro i–iv–V7</p>
+          </div>
+          <div class="study-week">
+            <div class="study-week-title">Settimana 4</div>
+            <p>Variazioni levada + intro al baião</p>
+          </div>
+
+          <ul class="checklist">
+            <li>Pattern base in G fluente</li>
+            <li>Cambio G→D7 automatico</li>
+            <li>Giro completo G–D7–Em–C</li>
+            <li>Tonalità Am a proprio agio</li>
+            <li>Pattern baião riconoscibile</li>
+          </ul>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/chords.js"></script>
+  <script src="js/data/xote-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/audio.js"></script>
+  <script>
+    if (window.FisarmonicaProgress) {
+      window.FisarmonicaProgress.buildSidebar();
+      window.FisarmonicaProgress.initScrollSpy();
+    }
+  </script>
+  <script>
+    (() => {
+      const loc = window.FisarmonicaI18n.applyBasicPageLocalization('xote', {});
+      const lang = loc.lang;
+      window.FisarmonicaInstruments.initInstrumentSwitchers(lang);
+      window.FisarmonicaI18n.setupMobilePreferenceSheet(lang);
+
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const syncBackToTop = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        window.addEventListener('scroll', syncBackToTop, { passive: true });
+        syncBackToTop();
+      }
+
+      function setupChordCards() {
+        const { createPianoKeyboardSvg, createStradellaDiagram, createHoverCardSystem } = window.FisarmonicaChords;
+
+        const renderChordDiagram = (container, chord) => {
+          container.replaceChildren();
+          container.appendChild(createPianoKeyboardSvg(chord.name || chord));
+          container.appendChild(createStradellaDiagram(chord.name || chord));
+        };
+
+        const { show: showHoverCard, hide: hideHoverCard, position: positionHoverCard } =
+          createHoverCardSystem({ renderDiagram: renderChordDiagram });
+
+        document.querySelectorAll('.chord-gallery .chord-card').forEach(card => {
+          const chordName = card.getAttribute('data-chord');
+          if (!chordName) return;
+          card.addEventListener('mouseenter', e => showHoverCard(card, { name: chordName }, { x: e.clientX, y: e.clientY }));
+          card.addEventListener('mousemove', e => positionHoverCard(e.clientX, e.clientY));
+          card.addEventListener('mouseleave', hideHoverCard);
+        });
+      }
+
+      document.addEventListener('DOMContentLoaded', setupChordCards);
+      document.addEventListener('fisarmonica:langChanged', () => {
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+        requestAnimationFrame(setupChordCards);
+      });
+    })();
+  </script>
+</body>
+</html>
