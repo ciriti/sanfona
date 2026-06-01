@@ -839,6 +839,99 @@
   .cof-info-panel { min-width: 0; width: 100%; }
 }
 
+/* ── Esercizi — controlli player ── */
+.ex-player-controls {
+  display: flex;
+  align-items: center;
+  gap: .45rem;
+  margin-bottom: .4rem;
+  flex-wrap: wrap;
+  line-height: 1;
+}
+
+.ex-play-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--genre-accent-rgb), .4);
+  background: rgba(var(--genre-accent-rgb), .1);
+  color: rgba(var(--genre-accent-rgb), 1);
+  cursor: pointer;
+  font-size: .82rem;
+  transition: background .15s, border-color .15s;
+  flex-shrink: 0;
+}
+.ex-play-btn:hover {
+  background: rgba(var(--genre-accent-rgb), .22);
+  border-color: rgba(var(--genre-accent-rgb), .7);
+}
+.ex-play-btn.is-playing {
+  background: rgba(var(--genre-accent-rgb), .28);
+  border-color: rgba(var(--genre-accent-rgb), 1);
+}
+
+/* Pulsante metronomo */
+.ex-metro-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid rgba(var(--genre-accent-rgb), .35);
+  background: transparent;
+  color: rgba(var(--genre-accent-rgb), .75);
+  cursor: pointer;
+  font-size: .9rem;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.ex-metro-btn:hover {
+  background: rgba(var(--genre-accent-rgb), .12);
+  color: rgba(var(--genre-accent-rgb), 1);
+}
+.ex-metro-btn.is-active {
+  background: rgba(82,183,136, .18);
+  border-color: rgba(82,183,136, .7);
+  color: var(--green-lt);
+}
+
+/* Controllo BPM — stessa altezza dei bottoni circolari (32px) */
+.ex-bpm-ctrl {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  gap: 0;
+  border: 1px solid rgba(var(--genre-accent-rgb), .3);
+  border-radius: 16px;
+  padding: 0 8px;
+  color: rgba(var(--genre-accent-rgb), .85);
+}
+.ex-bpm-ctrl button {
+  background: none;
+  border: none;
+  color: rgba(var(--genre-accent-rgb), .7);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  padding: 0 5px;
+  transition: color .12s;
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+.ex-bpm-ctrl button:hover { color: rgba(var(--genre-accent-rgb), 1); }
+.ex-bpm-val {
+  min-width: 28px;
+  text-align: center;
+  font-family: 'Courier New', monospace;
+  font-size: .78rem;
+  color: rgba(var(--genre-accent-rgb), .9);
+  user-select: none;
+}
+
 /* ── Esercizi ── */
 .ex-card {
   background: var(--card, #221c16);

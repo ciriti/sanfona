@@ -41,9 +41,9 @@
     <button class="metro-play-btn" id="metronome-btn"
       onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.toggleMetronome()">&#9654;</button>
     <label class="bpm-label" for="bpm-slider">Tempo</label>
-    <input type="range" id="bpm-slider" min="40" max="120" value="60"
+    <input type="range" id="bpm-slider" min="40" max="120" value="90"
       oninput="window.FisarmonicaAudio && window.FisarmonicaAudio.updateBpm(this.value)">
-    <span class="bpm-value" id="bpm-value">60 BPM</span>
+    <span class="bpm-value" id="bpm-value">90 BPM</span>
     <div class="rhythm-presets">
       <button class="rhythm-btn active" data-rhythm="xote"
         onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('xote')">Xote</button>
@@ -207,6 +207,7 @@
   <script src="js/instruments.js"></script>
   <script src="js/staff.js"></script>
   <script src="js/exercise-staff.js"></script>
+  <script src="js/exercise-player.js"></script>
   <script src="js/data/esercizi-content.js"></script>
   <script src="js/progress.js"></script>
   <script src="js/audio.js"></script>
@@ -238,6 +239,16 @@
     const R = (dur) =>
       ({ type:'rest', duration:dur });
 
+    /* Collega i controlli (play, metronomo, BPM) al player dell'esercizio */
+    function attachPlayer(svgEl, containerId) {
+      const P = window.FisarmonicaExercisePlayer;
+      if (!P) return;
+      const player = P.createPlayer(svgEl);
+      if (!player) return;
+      const container = document.getElementById(containerId);
+      if (container) player.mountControls(container, svgEl);
+    }
+
     /* ── Esercizio 18 — 4/4, semibrevi, diteggiatura 2→4→3→5 ── */
     const ex18 = EX.createExerciseSVG({
       clef:'bass', timeSig:'4/4',
@@ -254,6 +265,7 @@
       ],
     });
     document.getElementById('staff-18').appendChild(ex18);
+    attachPlayer(ex18, 'staff-18');
 
     /* ── Esercizio 19 — 4/4, semibrevi, diteggiatura 3→2→4→4→3→5 ── */
     const ex19 = EX.createExerciseSVG({
@@ -275,6 +287,7 @@
       ],
     });
     document.getElementById('staff-19').appendChild(ex19);
+    attachPlayer(ex19, 'staff-19');
 
     /* ── Esercizio 20 — 3/4, mezza puntata, diteggiatura 4→5→3→5→2→5→4→5 ── */
     const ex20 = EX.createExerciseSVG({
@@ -292,6 +305,7 @@
       ],
     });
     document.getElementById('staff-20').appendChild(ex20);
+    attachPlayer(ex20, 'staff-20');
 
     /* ── Esercizio 21 — 3/4, alternanza 4→2 ── */
     const ex21 = EX.createExerciseSVG({
@@ -309,6 +323,7 @@
       ],
     });
     document.getElementById('staff-21').appendChild(ex21);
+    attachPlayer(ex21, 'staff-21');
 
     /* ── Esercizio 22 — 3/4, scala ascendente/discendente ── */
     const ex22 = EX.createExerciseSVG({
@@ -326,6 +341,7 @@
       ],
     });
     document.getElementById('staff-22').appendChild(ex22);
+    attachPlayer(ex22, 'staff-22');
 
     /* ── Esercizio 23 — 3/4, diti misti ── */
     const ex23 = EX.createExerciseSVG({
@@ -343,6 +359,7 @@
       ],
     });
     document.getElementById('staff-23').appendChild(ex23);
+    attachPlayer(ex23, 'staff-23');
 
     /* ── Esercizio 24 — 4/4, nere staccate, mantice ogni 2 misure ── */
     const pat24 = (notes, fingers) =>
@@ -363,6 +380,7 @@
       ],
     });
     document.getElementById('staff-24').appendChild(ex24);
+    attachPlayer(ex24, 'staff-24');
 
   })();
   </script>

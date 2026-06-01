@@ -128,8 +128,20 @@
     }
   }
 
+  /* ── Helper timing ─────────────────────────────────────────────
+     Converte la durata di una nota in beat.
+     beatsPerMeasure = numeratore del segnatore (4 per 4/4, 3 per 3/4). */
+  function durationToBeats(dur, beatsPerMeasure) {
+    if (dur === 'whole')       return beatsPerMeasure;
+    if (dur === 'dotted-half') return 3;
+    if (dur === 'half')        return 2;
+    if (dur === 'quarter')     return 1;
+    return beatsPerMeasure;
+  }
+
   /* ─── Nota ───────────────────────────────────────────────────── */
-  function drawNote(svg, nx, step, yOff, dur, fingering, staccato, acc) {
+  /* noteId: stringa unica "mIndex-ni" usata dal player per highlight e cursore. */
+  function drawNote(svg, nx, step, yOff, dur, fingering, staccato, acc, noteId) {
     const ny = yOff + Y1 - step * HS;
     const MIDDLE = 4; /* riga 3 = D3 in basso / B4 in violino */
 
@@ -148,12 +160,15 @@
 
     if (hollow) {
       /* semibreve / minima: disco oro + ovale ritagliato */
-      mk('ellipse', { cx:nx, cy:ny, rx:NRX, ry:NRY, fill:GOLD }, svg);
+      mk('ellipse', { cx:nx, cy:ny, rx:NRX, ry:NRY, fill:GOLD,
+                      ...(noteId ? { 'data-note-id': noteId } : {}) }, svg);
       mk('ellipse', { cx:nx, cy:ny + 0.5, rx:NRX - 3, ry:NRY - 2.2,
-                      fill:BG, transform:`rotate(-18,${nx},${ny})` }, svg);
+                      fill:BG, transform:`rotate(-18,${nx},${ny})`,
+                      ...(noteId ? { 'data-note-bg': noteId } : {}) }, svg);
     } else {
       /* nera: ovale pieno */
-      mk('ellipse', { cx:nx, cy:ny, rx:NRX, ry:NRY, fill:GOLD }, svg);
+      mk('ellipse', { cx:nx, cy:ny, rx:NRX, ry:NRY, fill:GOLD,
+                      ...(noteId ? { 'data-note-id': noteId } : {}) }, svg);
     }
 
     /* gambo (non per semibreve) */
@@ -223,7 +238,7 @@
     TIMESIG_W: 24,   /* larghezza riservata al segnatore di tempo */
   };
 
-  function renderSystem(svg, measures, yOff, clef, timeSig, isFirst, totalW, mW, stepMap, accMap) {
+  function renderSystem(svg, measures, yOff, clef, timeSig, isFirst, totalW, mW, stepMap, accMap, measOffset) {
     const { LEFT_BAR, GAP, CLEF_W, TIMESIG_W } = LAYOUT;
 
     drawStaff(svg, LEFT_BAR, totalW - 2, yOff);
@@ -252,9 +267,10 @@
         if (n.type === 'rest') {
           drawRest(svg, nx, yOff, n.duration);
         } else {
-          const step = stepMap[n.pitch] ?? 0;
-          const acc  = accMap[n.pitch] || null;
-          drawNote(svg, nx, step, yOff, n.duration, n.fingering, n.staccato, acc);
+          const step   = stepMap[n.pitch] ?? 0;
+          const acc    = accMap[n.pitch] || null;
+          const noteId = `${(measOffset || 0) + mi}-${ni}`;
+          drawNote(svg, nx, step, yOff, n.duration, n.fingering, n.staccato, acc, noteId);
         }
       });
 
@@ -310,12 +326,48 @@
     svg.style.cssText = 'width:100%;display:block;';
 
     for (let row = 0; row < numRows; row++) {
-      const yOff     = TOP_PAD + row * SYS_H;
-      const rowMeas  = measures.slice(row * measPerRow, (row + 1) * measPerRow);
-      const mW       = row === 0 ? firstMW : subseqMW;
+      const yOff      = TOP_PAD + row * SYS_H;
+      const measStart = row * measPerRow;
+      const rowMeas   = measures.slice(measStart, measStart + measPerRow);
+      const mW        = row === 0 ? firstMW : subseqMW;
 
-      renderSystem(svg, rowMeas, yOff, clef, timeSig, row === 0, SVG_W, mW, stepMap, accMap);
+      renderSystem(svg, rowMeas, yOff, clef, timeSig, row === 0, SVG_W, mW, stepMap, accMap, measStart);
     }
+
+    /* ── Mappa di timing per il player ─────────────────────────────
+       Per ogni nota (non pausa): posizione SVG (nx, yOff) + beat offset cumulativo.
+       Costruita con la stessa geometria di renderSystem, senza ridisegnare. */
+    const beatsPerMeasure = parseInt(timeSig.split('/')[0], 10);
+    const noteMap = [];
+    let beatCounter = 0;
+
+    measures.forEach((measureNotes, mIndex) => {
+      const row_   = Math.floor(mIndex / measPerRow);
+      const mW_    = row_ === 0 ? firstMW : subseqMW;
+      const hdr_   = row_ === 0 ? FIRST_HDR : SUBSEQ_HDR;
+      const mStart_ = hdr_ + (mIndex % measPerRow) * mW_;
+      const yOff_  = TOP_PAD + row_ * SYS_H;
+      const slots  = measureNotes.length;
+
+      measureNotes.forEach((n, ni) => {
+        const nx = mStart_ + (ni + 0.5) * (mW_ / slots);
+        const db = durationToBeats(n.duration, beatsPerMeasure);
+        if (n.type === 'note') {
+          noteMap.push({
+            id:            `${mIndex}-${ni}`,
+            beatOffset:    beatCounter,
+            durationBeats: db,
+            nx,
+            yOff:          yOff_,
+            pitch:         n.pitch,
+            staccato:      !!n.staccato,
+          });
+        }
+        beatCounter += db;
+      });
+    });
+
+    svg._exerciseData = { noteMap, totalBeats: beatCounter, timeSig, beatsPerMeasure };
 
     return svg;
   }
