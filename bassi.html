@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Tastiera dei Bassi</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --genre-accent-rgb: 201, 149, 42;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+    .bk-wrap {
+      background: #18130e;
+      border: 1px solid rgba(var(--genre-accent-rgb), .22);
+      border-radius: var(--radius);
+      padding: 1rem .85rem;
+      overflow-x: auto;
+      margin: 1rem 0;
+    }
+    .bass-keyboard-svg {
+      display: block;
+      min-width: 760px;
+      height: auto;
+      margin: 0 auto;
+    }
+    .bk-caption {
+      font-size: .84rem;
+      color: var(--text-body);
+      margin: .6rem 0 0;
+      text-align: center;
+    }
+    .bk-legend {
+      list-style: none;
+      padding: 0;
+      margin: 1rem 0 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: .55rem .9rem;
+    }
+    .bk-legend li {
+      display: flex;
+      align-items: baseline;
+      gap: .55rem;
+      font-size: .9rem;
+      color: var(--text-body);
+    }
+    .bk-dot {
+      flex: 0 0 auto;
+      width: .85rem;
+      height: .85rem;
+      border-radius: 50%;
+      border: 2px solid;
+      translate: 0 .12rem;
+    }
+    .bk-row-name {
+      font-family: var(--font-display);
+      color: var(--cream);
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="bassi"
+    data-title="Tastiera dei Bassi"
+    data-subtitle="Le sei file del sistema Stradella e la mappa delle note lungo il circolo delle quinte">
+  </header>
+
+  <div class="wrapper">
+    <div class="page-layout">
+      <aside class="progress-sidebar" id="progress-sidebar"></aside>
+      <main class="content-column">
+
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">1</span>
+            <div>
+              <div class="section-title">Come è fatta la tastiera</div>
+            </div>
+          </div>
+          <p>La mano sinistra della fisarmonica usa il <strong>sistema Stradella</strong>: bottoni rotondi disposti in <strong>sei file</strong>. Le due file più vicine al mantice danno note singole (contrabbasso e basso fondamentale), le altre quattro suonano accordi già pronti (maggiore, minore, settima di dominante, settima diminuita).</p>
+          <p>Le colonne seguono il <strong>circolo delle quinte</strong>: spostandoti di una colonna verso il mento sali di una quinta (C → G → D…), verso il pavimento scendi di una quinta (C → F → B♭…). Il bottone-basso del <strong>Do (C)</strong> ha una tacca tattile per ritrovarti al buio — altre tacche stanno di solito su <strong>Mi (E)</strong> e <strong>La♭ (A♭)</strong>.</p>
+        </section>
+
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">2</span>
+            <div>
+              <div class="section-title">La mappa delle note</div>
+              <div class="section-subtitle">Sei file × circolo delle quinte — tutte le note etichettate</div>
+            </div>
+          </div>
+
+          <div class="bk-wrap">
+            <div id="bass-keyboard"></div>
+            <p class="bk-caption">La colonna evidenziata è il <strong>Do (C)</strong>, riferimento centrale. Scorri lateralmente per vedere tutte le colonne.</p>
+          </div>
+
+          <ul class="bk-legend">
+            <li><span class="bk-dot" style="border-color:#caa24a;background:rgba(201,149,42,.12)"></span><span><span class="bk-row-name">Contrabbasso</span> — terza maggiore sopra il basso (es. Do → Mi)</span></li>
+            <li><span class="bk-dot" style="border-color:#e8b84b;background:rgba(201,149,42,.20)"></span><span><span class="bk-row-name">Basso</span> — la nota fondamentale</span></li>
+            <li><span class="bk-dot" style="border-color:#5c8659;background:rgba(92,134,89,.14)"></span><span><span class="bk-row-name">Maggiore</span> <code>M</code> — accordo maggiore</span></li>
+            <li><span class="bk-dot" style="border-color:#9a5fb0;background:rgba(140,80,160,.13)"></span><span><span class="bk-row-name">minore</span> <code>m</code> — accordo minore</span></li>
+            <li><span class="bk-dot" style="border-color:#b45a28;background:rgba(180,90,40,.15)"></span><span><span class="bk-row-name">Settima</span> <code>S</code> — settima di dominante</span></li>
+            <li><span class="bk-dot" style="border-color:#9d8b75;background:rgba(157,139,117,.11)"></span><span><span class="bk-row-name">Diminuita</span> <code>d</code> — settima diminuita</span></li>
+          </ul>
+        </section>
+
+        <section id="s3">
+          <div class="section-header">
+            <span class="section-num">3</span>
+            <div>
+              <div class="section-title">Il pattern del forró</div>
+            </div>
+          </div>
+          <p>Nel forró la mano sinistra alterna <strong>basso e accordo</strong>: il pollice (o l'indice) preme il bottone-basso sul battere, le altre dita l'accordo sul levare. Restando vicino alla colonna del Do hai sotto le dita tutto il giro <strong>I–IV–V7</strong>:</p>
+          <pre>Tonalità Do:   Do (basso+Magg) → Fa (una colonna a sx) → Sol7 (una colonna a dx)
+Tonalità Sol:  Sol (basso+Magg) → Do (una colonna a sx) → Re7 (una colonna a dx)</pre>
+          <p>Poiché le file degli accordi sono fisse, una volta imparato il movimento in una tonalità lo trasponi semplicemente <strong>spostandoti di colonna</strong>: la forma della mano non cambia.</p>
+          <div class="note-studio" style="font-size:.85rem;color:var(--text-body);font-style:italic;margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border);">
+            <strong>Esercizio:</strong> trova il Do col pollice usando la tacca, poi suona Do → Sol7 → Do senza guardare. Ripeti partendo da Sol e da Fa.
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/bass-keyboard.js"></script>
+  <script src="js/data/bassi-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script>
+    (() => {
+      function renderKeyboard(lang) {
+        const el = document.getElementById('bass-keyboard');
+        if (el && window.FisarmonicaBassKeyboard) {
+          window.FisarmonicaBassKeyboard.render(el, lang);
+        }
+      }
+
+      document.addEventListener('fisarmonica:langChanged', (e) => {
+        renderKeyboard(e.detail && e.detail.lang);
+        if (window.FisarmonicaProgress) {
+          window.FisarmonicaProgress.buildSidebar();
+          window.FisarmonicaProgress.initScrollSpy();
+        }
+      });
+
+      const loc = window.FisarmonicaI18n.applyBasicPageLocalization('bassi', {});
+      renderKeyboard(loc.lang);
+      window.FisarmonicaInstruments.initInstrumentSwitchers(loc.lang);
+      window.FisarmonicaI18n.setupMobilePreferenceSheet(loc.lang);
+
+      const backToTop = document.getElementById('back-to-top');
+      if (backToTop) {
+        const sync = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+        window.addEventListener('scroll', sync, { passive: true });
+        sync();
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forró — Brani</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js" defer></script>
+  <style>
+    :root {
+      --genre-accent-rgb: 140, 80, 160;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+    .ex-staff-wrap {
+      background: #1c1710;
+      border: 1px solid rgba(140,80,160,.2);
+      border-radius: var(--radius);
+      padding: .75rem .5rem .25rem;
+      margin: .75rem 0;
+      overflow-x: auto;
+    }
+    .ex-staff-wrap svg { min-width: 520px; }
+    .brano-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      margin: 1.25rem 0;
+    }
+    .brano-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    .brano-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      color: var(--cream);
+      flex: 1;
+    }
+    .brano-composer {
+      font-size: .82rem;
+      color: var(--text-body);
+      margin-top: .2rem;
+    }
+    .brano-meta-badge {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      border: 1px solid rgba(var(--genre-accent-rgb),.4);
+      color: rgba(var(--genre-accent-rgb),1);
+      border-radius: 4px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .sezione-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: rgba(var(--genre-accent-rgb),.9);
+      margin: 1.1rem 0 .4rem;
+      font-family: var(--font-display);
+    }
+    .sezione-key {
+      font-size: .72rem;
+      color: var(--text-body);
+      font-family: 'Courier New', monospace;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .note-studio {
+      font-size: .85rem;
+      color: var(--text-body);
+      font-style: italic;
+      margin-top: .75rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="brani"
+    data-title="Brani"
+    data-subtitle="Pezzi trascritti per fisarmonica con pentagramma interattivo e playback">
+  </header>
+
+  <div class="bpm-bar">
+    <button class="metro-play-btn" id="metronome-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.toggleMetronome()">&#9654;</button>
+    <label class="bpm-label" for="bpm-slider">Tempo</label>
+    <input type="range" id="bpm-slider" min="40" max="180" value="100"
+      oninput="window.FisarmonicaAudio && window.FisarmonicaAudio.updateBpm(this.value)">
+    <span class="bpm-value" id="bpm-value">100 BPM</span>
+    <div class="rhythm-presets">
+      <button class="rhythm-btn active" data-rhythm="xote"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('xote')">Xote</button>
+      <button class="rhythm-btn" data-rhythm="baiao"
+        onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.setRhythmPreset('baiao')">Baião</button>
+    </div>
+    <button class="stop-all-btn"
+      onclick="window.FisarmonicaAudio && window.FisarmonicaAudio.stopActive()">&#9632; Stop</button>
+  </div>
+
+  <div class="wrapper">
+    <div class="page-layout">
+      <aside class="progress-sidebar" id="progress-sidebar"></aside>
+      <main class="content-column">
+
+        <!-- ── Info sulla sezione ── -->
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">Brani</span>
+            <div>
+              <div class="section-title">Come usare questa sezione</div>
+            </div>
+          </div>
+          <p>Ogni brano mostra la melodia principale su pentagramma in chiave di violino, con gli accordi indicati sopra. Il <strong>pulsante ▶</strong> riproduce la melodia semplificata seguendo il cursore dorato — utile per memorizzare il fraseggio e studiare lentamente.</p>
+          <p>Le trascrizioni sono versioni semplificate per lo studio: crome e nere catturano la forma della melodia, non ogni ornamento originale. Usa la partitura completa per la versione integrale.</p>
+          <div class="method-points" style="margin-top:.75rem;">
+            <div class="method-point">
+              <div class="method-point-title">Velocità</div>
+              <p style="font-size:.88rem;">Inizia a 60–70 BPM. Il maxixe originale si suona intorno a 100–120 BPM.</p>
+            </div>
+            <div class="method-point">
+              <div class="method-point-title">Mano destra</div>
+              <p style="font-size:.88rem;">Studia prima la melodia da sola. La mano sinistra con il pattern basso-accordo viene aggiunta dopo.</p>
+            </div>
+              <div class="method-point">
+                <div class="method-point-title">Accidentali</div>
+                <p style="font-size:.88rem;">Il ♯ e il ♭ vengono mostrati accanto alla nota. In tonalità con molti diesis (Re, La) tieni a mente le alterazioni in chiave.</p>
+              </div>
+            </div>
+            <p style="margin-top:1rem;">
+              Nuova pagina completa: <a href="receita.html">Receita de Samba</a> (partitura integrale in facsimile).
+            </p>
+          </section>
+
+        <!-- ── BREJEIRO ── -->
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">1</span>
+            <div>
+              <div class="section-title">Brejeiro</div>
+              <div class="section-subtitle">Ernesto Nazareth, 1903 — Maxixe</div>
+            </div>
+          </div>
+
+          <div class="brano-card">
+            <div class="brano-header">
+              <div>
+                <div class="brano-title">Brejeiro</div>
+                <div class="brano-composer">Ernesto Nazareth (1863–1934)</div>
+              </div>
+              <span class="brano-meta-badge">Maxixe</span>
+              <span class="brano-meta-badge">2/4</span>
+            </div>
+
+            <p style="font-size:.88rem;color:var(--text-body);margin-bottom:1rem;">
+              Uno dei maxixe più famosi del repertorio brasiliano. La struttura è <strong>Vamp – A – B – A' – B' – Coda</strong>, con le sezioni A e B in tonalità maggiore e le varianti A' e B' in minore/modale. La mano sinistra usa il pattern boom-chick con basso singolo sul tempo forte e accordo sul debole.
+            </p>
+
+            <!-- VAMP -->
+            <div class="sezione-label">
+              Vamp (Intro) <span class="sezione-key">Sol maggiore · 1♯</span>
+            </div>
+            <div class="chord-strip" data-chords="G D7 G D7">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-vamp"></div>
+
+            <!-- SEZIONE A -->
+            <div class="sezione-label">
+              Sezione A <span class="sezione-key">Sol maggiore · 1♯</span>
+            </div>
+            <div class="chord-strip" data-chords="G D7 G D7 B7 Em A7 D7">
+              <span class="chord-strip-label">Giro —</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">B7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Em</span><span class="chord-sep">–</span>
+              <span class="chord-pill">A7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-sez-a"></div>
+
+            <!-- SEZIONE B -->
+            <div class="sezione-label">
+              Sezione B <span class="sezione-key">Re maggiore · 2♯</span>
+            </div>
+            <div class="chord-strip" data-chords="D A7 D F#m C#7 F#m A7 D">
+              <span class="chord-strip-label">Giro —</span>
+              <span class="chord-pill">D</span><span class="chord-sep">–</span>
+              <span class="chord-pill">A7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">F♯m</span><span class="chord-sep">–</span>
+              <span class="chord-pill">C♯7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-sez-b"></div>
+
+            <!-- SEZIONE A' -->
+            <div class="sezione-label">
+              Sezione A' <span class="sezione-key">Sol minore · 2♭</span>
+            </div>
+            <div class="chord-strip" data-chords="Gm D7 Cm Gm D7 Eb D7 Cm A7 D">
+              <span class="chord-strip-label">Giro —</span>
+              <span class="chord-pill">Gm</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Cm</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Eb</span><span class="chord-sep">–</span>
+              <span class="chord-pill">A7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-sez-a2"></div>
+
+            <!-- SEZIONE B' -->
+            <div class="sezione-label">
+              Sezione B' <span class="sezione-key">Si♭ maggiore · 2♭</span>
+            </div>
+            <div class="chord-strip" data-chords="Bb F7 Dm A7 Bb F7 Gm D7 Bb">
+              <span class="chord-strip-label">Giro —</span>
+              <span class="chord-pill">B♭</span><span class="chord-sep">–</span>
+              <span class="chord-pill">F7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Dm</span><span class="chord-sep">–</span>
+              <span class="chord-pill">A7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Gm</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">B♭</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-sez-b2"></div>
+
+            <!-- CODA -->
+            <div class="sezione-label">
+              Coda <span class="sezione-key">Sol maggiore</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-coda"></div>
+
+            <div class="note-studio">
+              <strong>Note di studio:</strong> Inizia con la Sezione A a 70 BPM, impara i cambi G↔D7 finché la mano sinistra è automatica. La Sezione B in Re maggiore richiede nuove posizioni sul basso Stradella. L'A' in Sol minore ha una qualità nostalgica tipica del choro — fai attenzione ai Si♭ nell'armatura di chiave.
+            </div>
+          </div>
+        </section>
+
+        <!-- ── RECEITA DE SAMBA ── -->
+        <section id="s3">
+          <div class="section-header">
+            <span class="section-num">2</span>
+            <div>
+              <div class="section-title">Receita de Samba</div>
+              <div class="section-subtitle">Jacob do Bandolim — Samba/Choro</div>
+            </div>
+          </div>
+
+          <div class="brano-card">
+            <div class="brano-header">
+              <div>
+                <div class="brano-title">Receita de Samba</div>
+                <div class="brano-composer">Jacob do Bandolim (1918–1969)</div>
+              </div>
+              <span class="brano-meta-badge">Samba</span>
+              <span class="brano-meta-badge">2/4</span>
+            </div>
+
+            <p style="font-size:.88rem;color:var(--text-body);margin-bottom:1rem;">
+              Classico del bandolim brasiliano in tonalità di <strong>Sol maggiore</strong>. La forma è <strong>Vamp – A</strong> (con ripetizione e finali 1ª/2ª volta), basata sull'oscillazione caratteristica <strong>G ↔ Cm6</strong> con il Mi♭ del Cm6 come nota colore. Qui sono trascritte l'introduzione (Vamp) e la sezione A. Per la versione integrale vedi la <a href="receita.html">partitura completa</a>.
+            </p>
+
+            <!-- VAMP -->
+            <div class="sezione-label">
+              Vamp (Intro) <span class="sezione-key">Sol maggiore</span>
+            </div>
+            <div class="chord-strip" data-chords="G G Cm6">
+              <span class="chord-strip-label">Accordi —</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Cm6</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-rec-vamp"></div>
+
+            <!-- SEZIONE A -->
+            <div class="sezione-label">
+              Sezione A <span class="sezione-key">Sol maggiore</span>
+            </div>
+            <div class="chord-strip" data-chords="G Cm6 G7 C A Am D+7 G+7 E7 Bb°7 D7">
+              <span class="chord-strip-label">Giro —</span>
+              <span class="chord-pill">G</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Cm6</span><span class="chord-sep">–</span>
+              <span class="chord-pill">G7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">C</span><span class="chord-sep">–</span>
+              <span class="chord-pill">A</span><span class="chord-sep">–</span>
+              <span class="chord-pill">Am</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D+7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">G+7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">E7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">B♭°7</span><span class="chord-sep">–</span>
+              <span class="chord-pill">D7</span>
+            </div>
+            <div class="ex-staff-wrap" id="staff-rec-a"></div>
+
+            <div class="note-studio">
+              <strong>Note di studio:</strong> il cuore del tema è il passaggio <strong>G→Cm6</strong>: il Cm6 introduce il Mi♭ (sesta minore) che dà il colore tipico. Studia prima le mis. 4–11 (frase ripetuta), poi il ponte G7→C→A→Am→D+7. Gli accordi aumentati (D+7, G+7) portano il Re♯/La♯ come tensione. La sezione A si ripete: la 1ª volta chiude su D7 (rilancio), la 2ª su G. Trascrizione = lettura attenta dal facsimile, da verificare nei passaggi più fitti.
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/staff.js"></script>
+  <script src="js/exercise-staff.js"></script>
+  <script src="js/exercise-player.js"></script>
+  <script src="js/chords.js"></script>
+  <script src="js/data/brani-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script src="js/audio.js"></script>
+  <script>
+    document.addEventListener('fisarmonica:langChanged', () => {
+      if (window.FisarmonicaProgress) {
+        window.FisarmonicaProgress.buildSidebar();
+        window.FisarmonicaProgress.initScrollSpy();
+      }
+    });
+    window.FisarmonicaI18n.applyBasicPageLocalization('brani', {});
+    window.FisarmonicaI18n.setupMobilePreferenceSheet();
+    const backToTop = document.getElementById('back-to-top');
+    if (backToTop) {
+      const sync = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+      window.addEventListener('scroll', sync, { passive: true });
+      sync();
+    }
+  </script>
+  <script>
+  /* ── Brejeiro — trascrizione verificata con Claude Opus dal PDF originale ── */
+  (function () {
+    const EX = window.FisarmonicaExercise;
+    const P  = window.FisarmonicaExercisePlayer;
+    if (!EX) return;
+
+    /* ── helpers (vedi notation_system.md per documentazione completa) ── */
+    const N  = (p, d) => ({ type:'note', duration:d, pitch:p });
+    const R  = (d)    => ({ type:'rest', duration:d });
+    const q  = (p)    => N(p,'quarter');
+    const h  = (p)    => N(p,'half');
+    const e  = (p)    => N(p,'eighth');
+    const de = (p)    => N(p,'dotted-eighth');
+    const s  = (p)    => N(p,'sixteenth');
+    const Ns = (p,d)  => ({ type:'note', duration:d, pitch:p, slurStart:true });
+    const Ne = (p,d)  => ({ type:'note', duration:d, pitch:p, slurEnd:true });
+
+    function build(id, measures, opts) {
+      const svg = EX.createExerciseSVG({ clef:'treble', measPerRow:4, ...opts, measures });
+      document.getElementById(id).appendChild(svg);
+      if (P) {
+        const player = P.createPlayer(svg);
+        if (player) player.mountControls(document.getElementById(id), svg);
+      }
+    }
+
+    /* ─────────────────────────────────────────────────────────────────
+       BREJEIRO — Ernesto Nazareth
+       Trascrizione da PDF con Claude Opus (analisi nota per nota).
+       Tutte le misure sommano a 2 beat (2/4). Accidentali espliciti.
+       Nota: ♮ (becuadro) non supportato — le note naturali appaiono senza simbolo.
+       ───────────────────────────────────────────────────────────────── */
+
+    /* ── VAMP (mis. 1–4) — Sol maggiore (1♯), 2/4
+       Figura di accompagnamento: arpeggio G e D7 in ascending motion. */
+    build('staff-vamp', [
+      /* mis. 1 — G  */ [e('D4'), e('G4'), e('B4'), e('D5')],
+      /* mis. 2 — D7 */ [e('C4'), e('F#4'), e('A4'), e('C5')],
+      /* mis. 3 — G  */ [e('D4'), e('G4'), e('B4'), e('D5')],
+      /* mis. 4 — D7 */ [e('C4'), e('F#4'), e('A4'), e('C5')],
+    ], { timeSig:'2/4' });
+
+    /* ── SEZIONE A (mis. 5–20) — Sol maggiore (1♯), 2/4
+       Mis. 5–8 = mis. 9–12 (frase ripetuta).
+       Misure D7: croma puntata + semicroma = 1 beat (figura puntata del maxixe).
+       Legato visibile in mis. 17 (G5→F#5). */
+    build('staff-sez-a', [
+      /* mis. 5 — G  */ [R('eighth'), e('G5'), e('E5'), e('E5')],
+      /* mis. 6 — D7 */ [de('F#5'), s('F#5'), R('eighth'), e('D5')],
+      /* mis. 7 — G  */ [e('E5'), e('E5'), e('B4'), e('B4')],
+      /* mis. 8 — D7 */ [de('D5'), s('D5'), R('quarter')],
+      /* mis. 9  — G  (= mis. 5) */ [R('eighth'), e('G5'), e('E5'), e('E5')],
+      /* mis. 10 — D7 (= mis. 6) */ [de('F#5'), s('F#5'), R('eighth'), e('D5')],
+      /* mis. 11 — G  (= mis. 7) */ [e('E5'), e('E5'), e('B4'), e('B4')],
+      /* mis. 12 — D7 (= mis. 8) */ [de('D5'), s('D5'), R('quarter')],
+      /* mis. 13 — B7 */ [R('eighth'), e('B5'), e('F#5'), e('A5')],
+      /* mis. 14 — Em */ [e('A5'), e('F#5'), e('D#5'), e('E5')],
+      /* mis. 15 — A7 */ [R('eighth'), e('A5'), e('E5'), e('G5')],
+      /* mis. 16 — D7 */ [e('G5'), e('E5'), e('C#5'), e('D5')],
+      /* mis. 17 — G  (1° legato: G5→F#5) */
+                        [R('eighth'), Ns('G5','eighth'), Ne('F#5','eighth'), e('E5')],
+      /* mis. 18 — C6 (2° legato: D5→C5) */
+                        [Ns('D5','eighth'), Ne('C5','eighth'), e('B4'), e('G4')],
+      /* mis. 19 — A7 */ [e('B4'), e('A4'), e('G#4'), e('A4')],
+      /* mis. 20 — D7 */ [e('F#5'), e('F#5'), e('B4'), e('G5')],
+    ], { timeSig:'2/4' });
+
+    /* ── SEZIONE B (mis. 23–38a) — Re maggiore (2♯: F#,C#), 2/4
+       Trascrizione dalla lettura diretta della partitura.
+       G#5 in mis. 29 (C#7): ♯ esplicito, non in armatura.
+       Bb5 in mis. 35 = A#5 enarmonica per F#7. B5 in mis. 36: ledger sopra. */
+    build('staff-sez-b', [
+      /* mis. 23 — D      arpeggio ascendente D4→D5 */
+                          [e('D4'), e('F#4'), e('A4'), e('D5')],
+      /* mis. 24 — A7     F#5 discende 16ths E5-D5, poi C#5-A4 */
+                          [e('F#5'), s('E5'), s('D5'), e('C#5'), e('A4')],
+      /* mis. 25 — D      D5-F#5 ascendente + nera A5 */
+                          [e('D5'), e('F#5'), q('A5')],
+      /* mis. 26 — F°7/A7 A5-F#5 discende, pausa, pickup D5 */
+                          [e('A5'), e('F#5'), R('eighth'), e('D5')],
+      /* mis. 27 — D      D5 scende ad A4, poi 16ths F#5-G5-A5 */
+                          [e('D5'), e('A4'), s('F#5'), s('G5'), e('A5')],
+      /* mis. 28 — F#m    F#5-A5, poi 16ths C#5-D5, E5 */
+                          [e('F#5'), e('A5'), s('C#5'), s('D5'), e('E5')],
+      /* mis. 29 — C#7    run con G#5 (accidentale non in armatura Re) */
+                          [e('E5'), s('C#5'), s('D5'), s('E5'), s('G#5'), e('E5')],
+      /* mis. 30 — F#m/A7 discesa C#5→A4→F#4, risalita A4-C#5 */
+                          [s('C#5'), s('A4'), e('F#4'), e('A4'), e('C#5')],
+      /* mis. 31 — D      (= mis. 23) */
+                          [e('D4'), e('F#4'), e('A4'), e('D5')],
+      /* mis. 32 — A7     (= mis. 24) */
+                          [e('F#5'), s('E5'), s('D5'), e('C#5'), e('A4')],
+      /* mis. 33 — D      D5-F#5, 16ths A4-B4-A4 */
+                          [e('D5'), e('F#5'), s('A4'), s('B4'), e('A4')],
+      /* mis. 34 — A7     E5-C#5, pausa, pickup A4 */
+                          [e('E5'), e('C#5'), R('eighth'), e('A4')],
+      /* mis. 35 — D/F#7  D5-A4, 16ths F#5-Bb5 (A#=Bb per F#7), A5 */
+                          [e('D5'), e('A4'), s('F#5'), s('Bb5'), e('A5')],
+      /* mis. 36 — Bm/G   B5 acuto (ledger), 16ths D5-G5, B4-D5 */
+                          [e('B5'), s('D5'), s('G5'), e('B4'), e('D5')],
+      /* mis. 37 — D/A7   D5-F#5, 16ths E5-C#5, A4 */
+                          [e('D5'), e('F#5'), s('E5'), s('C#5'), e('A4')],
+      /* mis. 38a — D (1ª volta) pausa, 16ths F#5-G5, F#5-D5 */
+                          [R('eighth'), s('F#5'), s('G5'), e('F#5'), e('D5')],
+    ], { timeSig:'2/4' });
+
+    /* ── SEZIONE A' (mis. 48–63a) — Sol minore (2♭: Bb,Eb), 2/4
+       Variante minore del tema A. D7 usa F# naturale (leading tone) — mostrato con ♯.
+       B naturale per D7 scritto come 'B4' (il ♮ non è supportato visivamente). */
+    build('staff-sez-a2', [
+      /* mis. 48 — Gm */ [e('Bb4'), e('D5'), q('G5')],
+      /* mis. 49 — D7 */ [R('eighth'), s('A4'), s('B4'), e('A4'), e('F#4')],
+      /* mis. 50 — Cm6 */ [e('G4'), e('Bb4'), s('D5'), s('Eb5'), e('D5')],
+      /* mis. 51 — D7 */ [e('C5'), e('A4'), R('quarter')],
+      /* mis. 52 — Gm (= mis. 48) */ [e('Bb4'), e('D5'), q('G5')],
+      /* mis. 53 — D7 (= mis. 49) */ [R('eighth'), s('A4'), s('B4'), e('A4'), e('F#4')],
+      /* mis. 54 — Eb/Cm6 */ [e('G4'), e('Eb5'), s('C5'), s('D5'), e('Eb5')],
+      /* mis. 55 — D7/G7  */ [e('D5'), e('A4'), s('B4'), s('C5'), e('D5')],
+      /* mis. 56 — G7(b9) */ [e('F5'), e('D5'), e('B4'), e('Ab4')],
+      /* mis. 57 — Cm     */ [e('G4'), e('C5'), s('Eb5'), s('D5'), e('C5')],
+      /* mis. 58 — A7     */ [e('E5'), e('C#5'), s('A4'), s('G4'), e('E4')],
+      /* mis. 59 — D      */ [s('F#5'), s('E5'), e('D5'), e('A4'), e('F#4')],
+      /* mis. 60 — Gm/G7/B */ [Ns('G4','eighth'), e('Bb4'), s('B4'), s('C5'), e('D5')],
+      /* mis. 61 — Cm6/A7/C# */ [e('Eb5'), e('C5'), s('C#5'), s('D5'), e('Eb5')],
+      /* mis. 62 — D7     */ [e('D5'), e('C5'), s('Bb4'), s('A4'), e('G4')],
+      /* mis. 63a — Gm/D7 (1ª volta) */ [e('G4'), e('Bb4'), e('A4'), R('eighth')],
+    ], { timeSig:'2/4' });
+
+    /* ── SEZIONE B' (mis. 65–80a) — Si♭ maggiore (2♭: Bb,Eb), 2/4
+       Variante in Si♭ della sezione B. A7 in mis. 71 porta C# naturale. */
+    build('staff-sez-b2', [
+      /* mis. 65 — Bb     */ [e('F4'), e('Bb4'), e('D5'), e('F5')],
+      /* mis. 66 — F7     */ [e('Eb5'), s('C5'), s('D5'), e('C5'), e('A4')],
+      /* mis. 67 — Bb     */ [e('Bb4'), e('D5'), q('F5')],
+      /* mis. 68 — D°7/F7 */ [e('F5'), e('D5'), e('C5'), e('A4')],
+      /* mis. 69 — Bb     */ [e('Bb4'), e('F4'), s('D5'), s('Eb5'), e('F5')],
+      /* mis. 70 — Dm     */ [e('D5'), e('F5'), s('D5'), s('Eb5'), e('F5')],
+      /* mis. 71 — A7     */ [e('C#5'), s('A4'), s('B4'), s('C5'), s('E5'), e('C#5')],
+      /* mis. 72 — Cm7/F7 */ [s('A4'), s('F4'), e('D4'), e('C5'), e('A4')],
+      /* mis. 73 — Bb     */ [e('Bb4'), e('F4'), s('D5'), s('Eb5'), e('F5')],
+      /* mis. 74 — F7     */ [e('Eb5'), e('C5'), s('A4'), s('Bb4'), e('C5')],
+      /* mis. 75 — Bb     */ [e('Bb4'), e('D5'), s('F5'), s('G5'), e('F5')],
+      /* mis. 76 — F7     */ [e('Eb5'), e('C5'), s('A4'), s('Bb4'), e('C5')],
+      /* mis. 77 — Bb/D7  */ [e('Bb4'), e('F4'), s('A4'), s('C#5'), e('D5')],
+      /* mis. 78 — Gm/Eb  */ [e('D5'), e('Bb4'), s('G4'), s('Bb4'), e('Eb5')],
+      /* mis. 79 — Bb/F7  */ [e('D5'), e('Bb4'), s('C5'), s('A4'), e('F4')],
+      /* mis. 80a — Bb/F7 (1ª volta) */ [R('eighth'), s('D5'), s('Eb5'), e('D5'), e('Bb4')],
+    ], { timeSig:'2/4' });
+
+    /* ── CODA (mis. 86) — Sol maggiore (1♯), 2/4
+       Ritorno al Sol maggiore dopo il D.C. al Coda. */
+    build('staff-coda', [
+      /* mis. 86 */ [e('D5'), e('B4'), s('G5'), s('A5'), e('B5')],
+      /* mis. 87 */ [q('G5'), q('D5')],
+      /* mis. 88 */ [e('B4'), e('G4'), e('D5'), e('B4')],
+      /* mis. 89 */ [N('G4','half')],
+    ], { timeSig:'2/4' });
+
+  })();
+  </script>
+
+  <script>
+  /* ── Receita de Samba (Jacob do Bandolim) — Vamp + Sezione A ──
+     Lettura dal facsimile (pag. 64). Sol maggiore, 2/4.
+     Accidentali espliciti per nota (♮ non supportato → naturali senza simbolo). */
+  (function () {
+    const EX = window.FisarmonicaExercise;
+    const P  = window.FisarmonicaExercisePlayer;
+    if (!EX) return;
+
+    const N  = (p, d) => ({ type:'note', duration:d, pitch:p });
+    const R  = (d)    => ({ type:'rest', duration:d });
+    const q  = (p)    => N(p,'quarter');
+    const h  = (p)    => N(p,'half');
+    const e  = (p)    => N(p,'eighth');
+    const de = (p)    => N(p,'dotted-eighth');
+    const s  = (p)    => N(p,'sixteenth');
+    const Ns = (p,d)  => ({ type:'note', duration:d, pitch:p, slurStart:true });
+    const Ne = (p,d)  => ({ type:'note', duration:d, pitch:p, slurEnd:true });
+
+    function build(id, measures, opts) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const svg = EX.createExerciseSVG({ clef:'treble', measPerRow:4, ...opts, measures });
+      el.appendChild(svg);
+      if (P) {
+        const player = P.createPlayer(svg);
+        if (player) player.mountControls(el, svg);
+      }
+    }
+
+    /* ── VAMP (mis. 1–3) — G · G · Cm6, 2/4
+       Oscillazione G↔Cm6; il Cm6 porta il Mi♭ (sesta minore) legato. */
+    build('staff-rec-vamp', [
+      /* mis. 1 — G   */ [R('eighth'), e('D5'), e('B4'), e('D5')],
+      /* mis. 2 — G   */ [e('D5'), e('B4'), e('G4'), e('B4')],
+      /* mis. 3 — Cm6 */ [e('C5'), Ns('Eb5','eighth'), Ne('Eb5','eighth'), e('C5')],
+    ], { timeSig:'2/4' });
+
+    /* ── SEZIONE A (mis. 4–36) — Sol maggiore (1♯), 2/4
+       Trascritta dal PDF originale (pag. 64). Ritmo: pausa di croma in levare,
+       run di semicrome, figure puntate (croma punt.+semicroma) su G7/C/Bb°7/E7,
+       risoluzioni in minima su Cm6 e su C→E7/G#, legature di portamento sopra le
+       stanghette. Frase G→Cm6 ripetuta (mis. 4–7 = 8–11 = 20–22).
+       Ripetizione con finali: 1ª volta su D7, 2ª volta su G (verso la sezione B). */
+    build('staff-rec-a', [
+      /* mis. 4  — G   */ [R('eighth'), s('E5'), s('D5'), s('C5'), s('B4'), s('C5'), Ns('D5','sixteenth')],
+      /* mis. 5  — G   */ [Ne('D5','sixteenth'), s('C5'), s('B4'), s('A4'), s('B4'), s('C5'), s('D5'), s('E5')],
+      /* mis. 6  — G   */ [Ns('Eb4','eighth'), Ne('G4','eighth'), s('A4'), s('B4'), s('C5'), s('D5')],
+      /* mis. 7  — Cm6 (risoluzione in minima) */ [h('D5')],
+      /* mis. 8  — G   (= mis. 4) */ [R('eighth'), s('E5'), s('D5'), s('C5'), s('B4'), s('C5'), Ns('D5','sixteenth')],
+      /* mis. 9  — G   (= mis. 5) */ [Ne('D5','sixteenth'), s('C5'), s('B4'), s('A4'), s('B4'), s('C5'), s('D5'), s('E5')],
+      /* mis. 10 — G   (= mis. 6) */ [Ns('Eb4','eighth'), Ne('G4','eighth'), s('A4'), s('B4'), s('C5'), s('D5')],
+      /* mis. 11 — Cm6 (= mis. 7) */ [h('D5')],
+      /* mis. 12 — G   */ [R('eighth'), s('G4'), s('A4'), s('A#4'), s('B4'), s('C5'), Ns('D5','sixteenth')],
+      /* mis. 13 — G7  (figura puntata) */ [Ne('D5','eighth'), de('C5'), s('B4'), e('A4')],
+      /* mis. 14 — C   */ [R('eighth'), s('G4'), s('A4'), s('A#4'), s('B4'), s('C5'), Ns('D5','sixteenth')],
+      /* mis. 15 — C   (figura puntata) */ [Ne('C5','eighth'), de('B4'), s('A4'), e('G4')],
+      /* mis. 16 — A   (C♯) */ [R('eighth'), s('A4'), s('B4'), s('C#5'), s('D5'), s('C#5'), Ns('B4','sixteenth')],
+      /* mis. 17 — A   */ [Ne('A4','eighth'), s('B4'), s('C#5'), s('D5'), s('C#5'), s('B4'), s('A4')],
+      /* mis. 18 — Am  (C♮) */ [R('eighth'), s('A4'), s('B4'), s('C5'), s('D5'), s('C5'), Ns('B4','sixteenth')],
+      /* mis. 19 — D+7 (A♯ quinta aum.) */ [Ne('A4','eighth'), s('C5'), s('A#4'), s('A4'), s('F#4'), s('A4'), s('D5')],
+      /* mis. 20 — G   (= mis. 4) */ [R('eighth'), s('E5'), s('D5'), s('C5'), s('B4'), s('C5'), Ns('D5','sixteenth')],
+      /* mis. 21 — G   (= mis. 5) */ [Ne('D5','sixteenth'), s('C5'), s('B4'), s('A4'), s('B4'), s('C5'), s('D5'), s('E5')],
+      /* mis. 22 — G   (= mis. 6) */ [Ns('Eb4','eighth'), Ne('G4','eighth'), s('A4'), s('B4'), s('C5'), s('D5')],
+      /* mis. 23 — Cm6 (pickup verso il giro) */ [R('eighth'), e('A4'), e('C5'), e('D5')],
+      /* mis. 24 — G   */ [R('eighth'), s('E5'), s('D5'), s('C5'), s('B4'), s('C5'), Ns('D5','sixteenth')],
+      /* mis. 25 — G+7 (D♯ quinta aum.) */ [Ne('D5','eighth'), s('C5'), s('B4'), s('D#5'), s('E5'), e('F5')],
+      /* mis. 26 — C   (minima legata) */ [Ns('E5','half')],
+      /* mis. 27 — E7/G♯ (minima) */ [Ne('E5','half')],
+      /* mis. 28 — Am  */ [R('eighth'), s('A4'), s('B4'), s('C5'), s('D#5'), s('E5'), Ns('F5','sixteenth')],
+      /* mis. 29 — Bb°7 (figura puntata) */ [Ne('F5','eighth'), de('E5'), s('D5'), e('C5')],
+      /* mis. 30 — G/B */ [R('eighth'), s('B4'), s('A#4'), s('B4'), s('C5'), s('D5'), Ns('E5','sixteenth')],
+      /* mis. 31 — E7  (G♯) — To Coda */ [Ne('D5','eighth'), de('C5'), s('B4'), e('G#4')],
+      /* mis. 32 — Am  */ [R('eighth'), e('C5'), e('E5'), s('D5'), s('C5')],
+      /* mis. 33 — D7  (F♯, figura puntata) */ [de('D5'), s('C5'), s('B4'), s('A4'), s('F#4'), s('A4')],
+      /* mis. 34 — G   */ [e('D5'), e('B4'), q('G4')],
+      /* mis. 35 — D7  (1ª volta, figura puntata) */ [de('A4'), s('F#4'), q('D4')],
+      /* mis. 36 — G   (2ª volta, chiusura sezione) */ [e('G4'), R('eighth'), R('quarter')],
+    ], { timeSig:'2/4' });
+
+  })();
+  </script>
+</body>
+</html>

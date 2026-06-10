@@ -141,8 +141,23 @@
       Tone.Transport.stop();
       Tone.Transport.cancel();
 
+      /* Legatura di valore (tie): due+ note legate della STESSA altezza
+         vanno suonate come un unico attacco lungo, non come attacchi separati.
+         Le legature tra altezze diverse (legato vero) restano attacchi distinti. */
+      const merged = [];
+      for (let i = 0; i < noteMap.length; i++) {
+        const cur = { ...noteMap[i] };
+        while (cur.slurStart && i + 1 < noteMap.length &&
+               noteMap[i + 1].slurEnd && noteMap[i + 1].pitch === cur.pitch) {
+          cur.durationBeats += noteMap[i + 1].durationBeats;
+          cur.slurStart = noteMap[i + 1].slurStart; /* prosegue la catena se presente */
+          i++;
+        }
+        merged.push(cur);
+      }
+
       /* Tone.Part con tempi Transport-relativi in secondi */
-      const events = noteMap.map(e => [beatsToSec(e.beatOffset), e]);
+      const events = merged.map(e => [beatsToSec(e.beatOffset), e]);
       part = new Tone.Part((time, e) => {
         const dur = beatsToSec(e.durationBeats) * (e.staccato ? 0.15 : 0.85);
         noteSynth.triggerAttackRelease(e.pitch, Math.max(dur, 0.05), time);

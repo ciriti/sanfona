@@ -6,7 +6,10 @@
     { id: 'xote',          href: 'xote.html',          label: 'Xote & Levada' },
     { id: 'tecnica',       href: 'tecnica.html',        label: 'Tecnica' },
     { id: 'scale-accordi', href: 'scale-accordi.html',  label: 'Scale & Accordi' },
+    { id: 'bassi',         href: 'bassi.html',          label: 'Bassi' },
     { id: 'esercizi',      href: 'esercizi.html',       label: 'Esercizi' },
+    { id: 'brani',         href: 'brani.html',          label: 'Brani' },
+    { id: 'receita',       href: 'receita.html',        label: 'Receita' },
     { id: 'repertorio',    href: 'repertorio.html',     label: 'Repertório' },
   ];
 

@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Fisarmonica Forro - Receita de Samba</title>
+  <script>document.documentElement.classList.add('js-enabled');</script>
+  <link rel="stylesheet" href="css/shared.css" />
+  <link rel="stylesheet" href="css/page.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --genre-accent-rgb: 147, 96, 38;
+      --surface: #1a1410;
+      --card:    #221c16;
+      --muted:   #9d8b75;
+      --code-bg: #130f0b;
+    }
+    .brano-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      margin: 1rem 0;
+    }
+    .brano-header {
+      display: flex;
+      align-items: flex-start;
+      gap: .8rem;
+      margin-bottom: .8rem;
+      flex-wrap: wrap;
+    }
+    .brano-title {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      color: var(--cream);
+      flex: 1;
+    }
+    .brano-composer {
+      font-size: .84rem;
+      color: var(--text-body);
+      margin-top: .15rem;
+    }
+    .brano-meta-badge {
+      font-size: .72rem;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      border: 1px solid rgba(var(--genre-accent-rgb), .45);
+      color: rgba(var(--genre-accent-rgb), 1);
+      border-radius: 4px;
+      padding: 2px 8px;
+      white-space: nowrap;
+    }
+    .sezione-label {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      color: rgba(var(--genre-accent-rgb), .95);
+      margin: 1rem 0 .4rem;
+      font-family: var(--font-display);
+    }
+    .sezione-key {
+      font-size: .72rem;
+      color: var(--text-body);
+      font-family: 'Courier New', monospace;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .score-wrap {
+      background: #18130e;
+      border: 1px solid rgba(var(--genre-accent-rgb), .22);
+      border-radius: var(--radius);
+      padding: .75rem;
+      overflow-x: auto;
+      margin-bottom: .75rem;
+    }
+    .score-sheet {
+      display: block;
+      width: 100%;
+      min-width: 640px;
+      height: auto;
+      background: #e9e9e9;
+      border-radius: 6px;
+      border: 1px solid rgba(0, 0, 0, .35);
+    }
+    .score-caption {
+      font-size: .84rem;
+      color: var(--text-body);
+      margin: .45rem 0 0;
+    }
+    .resource-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .6rem;
+      margin-top: .8rem;
+    }
+    .resource-link {
+      display: inline-block;
+      font-size: .82rem;
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      padding: .35rem .6rem;
+      color: rgba(var(--genre-accent-rgb), 1);
+    }
+    .note-studio {
+      font-size: .85rem;
+      color: var(--text-body);
+      font-style: italic;
+      margin-top: .75rem;
+      padding-top: .75rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+  <header id="top" data-page="receita"
+    data-title="Receita de Samba"
+    data-subtitle="Trascrizione completa del brano in notazione integrale (legati, pause e simboli originali)">
+  </header>
+
+  <div class="wrapper">
+    <div class="page-layout">
+      <aside class="progress-sidebar" id="progress-sidebar"></aside>
+      <main class="content-column">
+
+        <section id="s1">
+          <div class="section-header">
+            <span class="section-num">Brano</span>
+            <div>
+              <div class="section-title">Come studiare questa pagina</div>
+            </div>
+          </div>
+          <p>Questa pagina usa la <strong>partitura completa in facsimile</strong>, senza semplificazioni ritmiche: ogni elemento grafico rimane quello originale (note, pause, legature, arcate e segni di ripetizione).</p>
+          <p>Per lo studio pratico: procedi per blocchi da 4 misure, poi collega i blocchi seguendo i richiami (<em>D.S. al Coda</em> e <em>To Coda</em>).</p>
+        </section>
+
+        <section id="s2">
+          <div class="section-header">
+            <span class="section-num">1</span>
+            <div>
+              <div class="section-title">Receita de Samba</div>
+              <div class="section-subtitle">Jacob do Bandolim - Choro/Samba</div>
+            </div>
+          </div>
+
+          <div class="brano-card">
+            <div class="brano-header">
+              <div>
+                <div class="brano-title">Receita de Samba</div>
+                <div class="brano-composer">Jacob do Bandolim</div>
+              </div>
+              <span class="brano-meta-badge">2/4</span>
+              <span class="brano-meta-badge">Partitura Integrale</span>
+            </div>
+
+            <p style="font-size:.89rem;color:var(--text-body);margin-bottom:.9rem;">
+              Trascrizione mantenuta in forma completa dal chart originale: non e stata ridotta come esercizio base, cosi puoi lavorare con la sintassi musicale reale del brano.
+            </p>
+
+            <div class="sezione-label">
+              Pagina 1 <span class="sezione-key">Misure 1-45</span>
+            </div>
+            <div class="score-wrap">
+              <img class="score-sheet" src="assets/receita-de-samba-p1.png" alt="Receita de Samba - partitura pagina 1" />
+              <p class="score-caption">Tema principale, ripetizioni e primo passaggio verso la seconda parte.</p>
+            </div>
+
+            <div class="sezione-label">
+              Pagina 2 <span class="sezione-key">Misure 46-84 + Coda</span>
+            </div>
+            <div class="score-wrap">
+              <img class="score-sheet" src="assets/receita-de-samba-p2.png" alt="Receita de Samba - partitura pagina 2" />
+              <p class="score-caption">Sviluppo finale, D.S. al Coda e chiusura del brano.</p>
+            </div>
+
+            <div class="resource-row">
+              <a class="resource-link" href="assets/receita-de-samba.pdf" target="_blank" rel="noopener">Apri PDF completo</a>
+              <a class="resource-link" href="brani.html">Torna a Brani</a>
+            </div>
+
+            <div class="note-studio">
+              <strong>Nota:</strong> questa versione e volutamente fedele all'originale, quindi mantiene legature, pause e richiami senza semplificazioni intermedie.
+            </div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="js/layout.js"></script>
+  <script src="js/i18n.js"></script>
+  <script src="js/instruments.js"></script>
+  <script src="js/data/receita-content.js"></script>
+  <script src="js/progress.js"></script>
+  <script>
+    document.addEventListener('fisarmonica:langChanged', () => {
+      if (window.FisarmonicaProgress) {
+        window.FisarmonicaProgress.buildSidebar();
+        window.FisarmonicaProgress.initScrollSpy();
+      }
+    });
+    window.FisarmonicaI18n.applyBasicPageLocalization('receita', {});
+    window.FisarmonicaI18n.setupMobilePreferenceSheet();
+
+    const backToTop = document.getElementById('back-to-top');
+    if (backToTop) {
+      const sync = () => backToTop.classList.toggle('is-visible', window.scrollY > 420);
+      window.addEventListener('scroll', sync, { passive: true });
+      sync();
+    }
+  </script>
+</body>
+</html>

@@ -85,6 +85,20 @@
   }
 
   /* ─── Stanghette ─────────────────────────────────────────────── */
+  /* ─── Legato (slur) ─────────────────────────────────────────── */
+  /* Disegna un arco curvo tra due note.
+     above=true → l'arco è sopra le note (registro acuto, gambo in giù);
+     above=false → sotto (registro basso, gambo su). */
+  function drawSlur(svg, x1, y1, x2, y2, above) {
+    const cx   = (x1 + x2) / 2;
+    const bulge = above ? -16 : 16;
+    const midY  = (y1 + y2) / 2 + bulge;
+    const offY  = above ? -4 : 4;
+    const d = `M ${x1+2},${y1+offY} Q ${cx},${midY} ${x2-2},${y2+offY}`;
+    mk('path', { d, stroke: GOLD, 'stroke-width':'1.4',
+                 fill:'none', 'stroke-linecap':'round' }, svg);
+  }
+
   function barLine(svg, x, yOff) {
     mk('line', { x1:x, y1:yOff+Y1+0.5, x2:x, y2:yOff+Y5-0.5,
                  stroke:DIM, 'stroke-width':'1.5' }, svg);
@@ -132,10 +146,14 @@
      Converte la durata di una nota in beat.
      beatsPerMeasure = numeratore del segnatore (4 per 4/4, 3 per 3/4). */
   function durationToBeats(dur, beatsPerMeasure) {
-    if (dur === 'whole')       return beatsPerMeasure;
-    if (dur === 'dotted-half') return 3;
-    if (dur === 'half')        return 2;
-    if (dur === 'quarter')     return 1;
+    if (dur === 'whole')           return beatsPerMeasure;
+    if (dur === 'dotted-half')     return 3;
+    if (dur === 'half')            return 2;
+    if (dur === 'dotted-quarter')  return 1.5;
+    if (dur === 'quarter')         return 1;
+    if (dur === 'dotted-eighth')   return 0.75;  /* croma puntata */
+    if (dur === 'eighth')          return 0.5;
+    if (dur === 'sixteenth')       return 0.25;  /* semicroma */
     return beatsPerMeasure;
   }
 
@@ -156,7 +174,8 @@
       }, svg);
     }
 
-    const hollow = (dur !== 'quarter');
+    /* semibreve e minima = aperte; nera e croma = piene */
+    const hollow = (dur === 'whole' || dur === 'half' || dur === 'dotted-half');
 
     if (hollow) {
       /* semibreve / minima: disco oro + ovale ritagliato */
@@ -173,15 +192,36 @@
 
     /* gambo (non per semibreve) */
     if (dur !== 'whole') {
-      const up = step <= MIDDLE;
-      const sx = up ? nx + NRX - 1 : nx - NRX + 1;
-      const sy = up ? ny - 30 : ny + 30;
+      const up  = step <= MIDDLE;
+      const sx  = up ? nx + NRX - 1 : nx - NRX + 1;
+      const hasFlag = (dur === 'eighth' || dur === 'dotted-eighth' || dur === 'sixteenth');
+      const len = hasFlag ? 24 : 30;
+      const sy  = up ? ny - len : ny + len;
       mk('line', { x1:sx, y1:ny, x2:sx, y2:sy,
                    stroke:GOLD, 'stroke-width':'1.6' }, svg);
+
+      /* 1ª coda — croma, croma puntata, semicroma */
+      if (hasFlag) {
+        const d = up
+          ? `M${sx},${sy} C${sx+9},${sy+4} ${sx+10},${sy+12} ${sx+4},${sy+19}`
+          : `M${sx},${sy} C${sx+9},${sy-4} ${sx+10},${sy-12} ${sx+4},${sy-19}`;
+        mk('path', { d, stroke:GOLD, 'stroke-width':'1.6',
+                     fill:'none', 'stroke-linecap':'round' }, svg);
+      }
+
+      /* 2ª coda — semicroma (doppio flag) */
+      if (dur === 'sixteenth') {
+        const sy2 = up ? sy + 7 : sy - 7;
+        const d2 = up
+          ? `M${sx},${sy2} C${sx+9},${sy2+4} ${sx+10},${sy2+12} ${sx+4},${sy2+19}`
+          : `M${sx},${sy2} C${sx+9},${sy2-4} ${sx+10},${sy2-12} ${sx+4},${sy2-19}`;
+        mk('path', { d:d2, stroke:GOLD, 'stroke-width':'1.6',
+                     fill:'none', 'stroke-linecap':'round' }, svg);
+      }
     }
 
-    /* punto per note puntate */
-    if (dur === 'dotted-half') {
+    /* punto di aumentazione — tutte le note puntate */
+    if (dur === 'dotted-half' || dur === 'dotted-quarter' || dur === 'dotted-eighth') {
       mk('circle', { cx:nx + NRX + 5, cy:ny - 1, r:'2.5', fill:GOLD }, svg);
     }
 
@@ -223,6 +263,11 @@
       const d = `M${nx-5},${cy-10} L${nx+5},${cy-5} L${nx-4},${cy+4} L${nx+5},${cy+10}`;
       mk('path', { d, stroke:GOLD, 'stroke-width':'1.5',
                    fill:'none', 'stroke-linecap':'round' }, svg);
+    } else if (dur === 'eighth') {
+      /* Pausa di croma: piccolo tratto diagonale */
+      const cy = yOff + Y1 - 2 * LS;
+      mk('rect', { x:nx-3, y:cy-2, width:7, height:4,
+                   fill:GOLD, rx:'1' }, svg);
     }
   }
 
@@ -256,6 +301,10 @@
       cursor += TIMESIG_W;
     }
 
+    /* slurQueue: coda delle note che aprono un legato ancora da chiudere.
+       Ogni entry: { x, y, step } — persiste tra misure nella stessa riga. */
+    const slurQueue = [];
+
     measures.forEach((measureNotes, mi) => {
       const mStart = cursor;
       const slots  = measureNotes.length;
@@ -271,6 +320,18 @@
           const acc    = accMap[n.pitch] || null;
           const noteId = `${(measOffset || 0) + mi}-${ni}`;
           drawNote(svg, nx, step, yOff, n.duration, n.fingering, n.staccato, acc, noteId);
+
+          const ny = yOff + Y1 - step * HS;
+
+          /* chiudi il legato aperto → disegna l'arco */
+          if (n.slurEnd && slurQueue.length > 0) {
+            const s = slurQueue.pop();
+            const above = s.step > 4; /* gambo in giù → slur sopra */
+            drawSlur(svg, s.x, s.y, nx, ny, above);
+          }
+
+          /* apri un nuovo legato */
+          if (n.slurStart) slurQueue.push({ x: nx, y: ny, step });
         }
       });
 
@@ -361,6 +422,8 @@
             yOff:          yOff_,
             pitch:         n.pitch,
             staccato:      !!n.staccato,
+            slurStart:     !!n.slurStart,
+            slurEnd:       !!n.slurEnd,
           });
         }
         beatCounter += db;
